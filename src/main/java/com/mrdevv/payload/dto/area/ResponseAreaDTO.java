@@ -1,4 +1,4 @@
-package com.mrdevv.payload.dto.areas;
+package com.mrdevv.payload.dto.area;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

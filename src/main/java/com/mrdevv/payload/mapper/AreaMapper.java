@@ -1,8 +1,8 @@
 package com.mrdevv.payload.mapper;
 
 import com.mrdevv.model.Area;
-import com.mrdevv.payload.dto.areas.CreateAreaDTO;
-import com.mrdevv.payload.dto.areas.ResponseAreaDTO;
+import com.mrdevv.payload.dto.area.CreateAreaDTO;
+import com.mrdevv.payload.dto.area.ResponseAreaDTO;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.mrdevv.payload.dto.areas;
+package com.mrdevv.payload.dto.area;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

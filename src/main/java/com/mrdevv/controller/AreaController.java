@@ -1,8 +1,8 @@
 package com.mrdevv.controller;
 
 import com.mrdevv.payload.ResponseHandler;
-import com.mrdevv.payload.dto.areas.CreateAreaDTO;
-import com.mrdevv.payload.dto.areas.ResponseAreaDTO;
+import com.mrdevv.payload.dto.area.CreateAreaDTO;
+import com.mrdevv.payload.dto.area.ResponseAreaDTO;
 import com.mrdevv.service.IAreaService;
 import com.mrdevv.utils.TipoResponse;
 import jakarta.validation.Valid;

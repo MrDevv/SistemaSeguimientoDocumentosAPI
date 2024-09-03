@@ -1,8 +1,8 @@
 package com.mrdevv.service.impl;
 
 import com.mrdevv.model.Area;
-import com.mrdevv.payload.dto.areas.CreateAreaDTO;
-import com.mrdevv.payload.dto.areas.ResponseAreaDTO;
+import com.mrdevv.payload.dto.area.CreateAreaDTO;
+import com.mrdevv.payload.dto.area.ResponseAreaDTO;
 import com.mrdevv.payload.mapper.AreaMapper;
 import com.mrdevv.repository.AreaRepository;
 import com.mrdevv.service.IAreaService;
