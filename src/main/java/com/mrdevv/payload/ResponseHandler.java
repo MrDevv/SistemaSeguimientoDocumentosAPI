@@ -1,5 +1,6 @@
 package com.mrdevv.payload;
 
+import com.mrdevv.utils.TipoResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -9,15 +10,18 @@ import java.util.Map;
 
 public class ResponseHandler {
 
-    public static ResponseEntity<Object> get(String mensaje, Object data){
+    public static ResponseEntity<Object> get(TipoResponse tipoResponse, String mensaje, Object data){
         Map<String, Object> response = new LinkedHashMap();
 
-        response.put("status", HttpStatus.OK);
-        response.put("code", HttpStatus.OK.value());
+        response.put("status", "Ok");
+        response.put("code", tipoResponse.getStatus());
         response.put("message", mensaje);
         response.put("data", data);
-        response.put("data_pageable", null);
 
-        return ResponseEntity.ok(response);
+        if(tipoResponse.toString().equals(TipoResponse.GET.name()) || tipoResponse.toString().equals(TipoResponse.GETALL.name())){
+            response.put("data_pageable", null);
+        }
+
+        return ResponseEntity.status(tipoResponse.getStatus()).body(response);
     }
 }

@@ -1,6 +1,7 @@
 package com.mrdevv.payload.mapper;
 
 import com.mrdevv.model.Area;
+import com.mrdevv.payload.dto.areas.CreateAreaDTO;
 import com.mrdevv.payload.dto.areas.ResponseAreaDTO;
 
 import java.util.List;
@@ -15,5 +16,11 @@ public class AreaMapper {
 
     public static ResponseAreaDTO toAreaDTO(Area area){
         return new ResponseAreaDTO(area.getId(), area.getDescripcion(), area.getEstado());
+    }
+
+    public static Area toAreaEntity(CreateAreaDTO areaDTO){
+        return Area.builder()
+                    .descripcion(areaDTO.descripcion())
+                    .build();
     }
 }

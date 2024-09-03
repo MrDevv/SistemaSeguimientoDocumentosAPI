@@ -14,6 +14,10 @@ public class Area {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="AREA_ID")
     Long id;
+
     String descripcion;
-    Boolean estado;
+
+    @Builder.Default
+    @Column(insertable = false, updatable = false)
+    Boolean estado = true;
 }
