@@ -14,7 +14,6 @@ import java.util.List;
 
 @Service
 public class AreaServiceImpl implements IAreaService {
-
     private final AreaRepository areaRepository;
 
     @Autowired
@@ -29,18 +28,21 @@ public class AreaServiceImpl implements IAreaService {
         return AreaMapper.toAreaListDTO(areas);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ResponseAreaDTO getAreaById(Long id) {
         Area area = areaRepository.getReferenceById(id);
         return AreaMapper.toAreaDTO(area);
     }
 
+    @Transactional
     @Override
     public ResponseAreaDTO saveArea(CreateAreaDTO areaDTO) {
         Area area = areaRepository.save(AreaMapper.toAreaEntity(areaDTO));
         return AreaMapper.toAreaDTO(area);
     }
 
+    @Transactional
     @Override
     public ResponseAreaDTO updateArea(Long id, CreateAreaDTO areaDTO) {
         Area oldArea = areaRepository.findById(id)
@@ -52,6 +54,7 @@ public class AreaServiceImpl implements IAreaService {
         return AreaMapper.toAreaDTO(updatedArea);
     }
 
+    @Transactional
     @Override
     public void disableArea(Long id) {
         if (areaRepository.existsById(id)){
@@ -61,6 +64,7 @@ public class AreaServiceImpl implements IAreaService {
         }
     }
 
+    @Transactional
     @Override
     public void enableArea(Long id) {
         if (areaRepository.existsById(id)){
