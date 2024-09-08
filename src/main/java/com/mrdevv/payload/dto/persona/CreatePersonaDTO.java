@@ -5,11 +5,13 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record CreatePersonaDTO(
-        @NotBlank
+        @NotBlank(message = "El nombre es requerido")
+        @Pattern(regexp = "^[A-Za-zÁÉÍÓÚáéíóúÑñ\\s]+$", message = "El nombre solo puede contener letras")
         String nombres,
-        @NotBlank
+        @NotBlank(message = "Los apellidos son requeridos")
+        @Pattern(regexp = "^[A-Za-zÁÉÍÓÚáéíóúÑñ\\s]+$", message = "Los apellidos solo pueden contener letras")
         String apellidos,
-        @NotBlank
+        @NotBlank(message = "El DNI es requerido")
         @Size(min = 8, max = 8, message = "El dni debe tener exactamente 8 digitos")
         @Pattern(regexp = "\\d+", message = "El DNI debe contener solo números")
         String dni,
