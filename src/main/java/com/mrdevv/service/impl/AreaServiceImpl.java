@@ -5,7 +5,10 @@ import com.mrdevv.exception.ObjectNotFoundException;
 import com.mrdevv.model.Area;
 import com.mrdevv.payload.dto.area.CreateAreaDTO;
 import com.mrdevv.payload.dto.area.ResponseAreaDTO;
+import com.mrdevv.payload.dto.usuario.ResponseUsuarioSimpleDTO;
+import com.mrdevv.payload.dto.usuario_area.ResponseUsuarioAreaSimpleDTO;
 import com.mrdevv.payload.mapper.AreaMapper;
+import com.mrdevv.payload.mapper.UsuarioAreaMapper;
 import com.mrdevv.repository.AreaRepository;
 import com.mrdevv.service.IAreaService;
 import com.mrdevv.utils.ErrorMessages;
@@ -29,6 +32,19 @@ public class AreaServiceImpl implements IAreaService {
     public List<ResponseAreaDTO> getAreas(Boolean estado, String area) {
         List<Area> areas = areaRepository.getAreas(estado, area);
         return AreaMapper.toAreaListDTO(areas);
+    }
+
+    @Transactional
+    @Override
+    public ResponseUsuarioAreaSimpleDTO getUsuariosActivosPorArea(Long idArea) {
+        ResponseAreaDTO responseAreaDTO = this.getAreaById(idArea);
+        List<Object[]> usuariosPorArea = areaRepository.getUsuariosByIdArea(idArea);
+        List<ResponseUsuarioSimpleDTO> usuarioSimpleDTO = AreaMapper.toUsuarioSimpleDTO(usuariosPorArea);
+
+        return new ResponseUsuarioAreaSimpleDTO(
+                responseAreaDTO.descripcion(),
+                usuarioSimpleDTO
+        );
     }
 
     @Transactional(readOnly = true)

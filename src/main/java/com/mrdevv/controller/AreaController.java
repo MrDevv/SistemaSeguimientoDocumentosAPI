@@ -3,6 +3,7 @@ package com.mrdevv.controller;
 import com.mrdevv.payload.ResponseHandler;
 import com.mrdevv.payload.dto.area.CreateAreaDTO;
 import com.mrdevv.payload.dto.area.ResponseAreaDTO;
+import com.mrdevv.payload.dto.usuario_area.ResponseUsuarioAreaSimpleDTO;
 import com.mrdevv.service.IAreaService;
 import com.mrdevv.utils.TipoResponse;
 import jakarta.validation.Valid;
@@ -37,6 +38,11 @@ public class AreaController {
     }
 
 //    TODO: endpoint para obtener todos los usuarios de una determinda area, por filtro de activos, inactivos y todos
+    @GetMapping("/{id}/usuarios")
+    public ResponseEntity<Object> obtenerUsuarioByIdArea(@PathVariable Long id){
+        ResponseUsuarioAreaSimpleDTO usuariosPorArea = areaService.getUsuariosActivosPorArea(id);
+        return ResponseHandler.get(TipoResponse.GETALL, "Usuarios activos por area", usuariosPorArea);
+    }
 
     @PostMapping
     public ResponseEntity<Object> crearArea(@Valid @RequestBody CreateAreaDTO areaDTO){
