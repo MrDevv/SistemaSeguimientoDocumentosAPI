@@ -34,4 +34,22 @@ public class Usuario {
     @Builder.Default
     @Column(insertable = false, updatable = false)
     Boolean estado = true;
+
+    public void generarUserName(){
+        String username = "";
+
+        Character firstCharacter = persona.getNombres().charAt(0);
+        String[] apellidos = persona.getApellidos().split(" ");
+        Character secondCharacter = ' ';
+        String dni = persona.getDni().substring(0, 2);
+
+        if (apellidos.length > 1){
+            secondCharacter = apellidos[1].charAt(0);
+        }
+
+        nombreUsuario = username.concat(firstCharacter.toString())
+                .concat(apellidos[0])
+                .concat(secondCharacter.toString())
+                .concat(dni).toLowerCase();
+    }
 }

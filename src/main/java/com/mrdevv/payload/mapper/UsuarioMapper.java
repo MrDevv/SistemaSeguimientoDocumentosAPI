@@ -20,7 +20,6 @@ public class UsuarioMapper {
 
     public static Usuario toUsuarioEntity(CreateUsuarioDTO usuarioDTO, ResponsePersonaDTO personaDTO){
         return Usuario.builder()
-                .nombreUsuario(usuarioDTO.nombreUsuario())
                 .password(usuarioDTO.password())
                 .persona(PersonaMapper.responseToPersonaEntity(personaDTO))
                 .rol(Rol.builder().id(usuarioDTO.rolId()).build())

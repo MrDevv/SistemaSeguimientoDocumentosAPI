@@ -5,6 +5,7 @@ import com.mrdevv.payload.dto.usuario_area.CreateUsuarioAreaDTO;
 import com.mrdevv.payload.dto.usuario_area.ResponseUsuarioAreaDTO;
 import com.mrdevv.service.IUsuarioAreaService;
 import com.mrdevv.utils.TipoResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class UsuarioAreaController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> crearUsuario(@RequestBody CreateUsuarioAreaDTO usuarioAreaDTO){
+    public ResponseEntity<Object> crearUsuario(@Valid @RequestBody CreateUsuarioAreaDTO usuarioAreaDTO){
         ResponseUsuarioAreaDTO usuarioArea =  usuarioAreaService.saveUsuarioArea(usuarioAreaDTO);
         return ResponseHandler.get(TipoResponse.CREATE, "Usuario registrado correctamente", usuarioArea);
     }

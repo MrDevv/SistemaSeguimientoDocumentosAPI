@@ -31,8 +31,10 @@ public class UsuarioServiceImpl implements IUsuarioServices {
     @Transactional
     @Override
     public ResponseUsuarioDTO saveUsuario(CreateUsuarioDTO usuarioDTO, ResponsePersonaDTO personaDTO) {
-        existsByUsername(usuarioDTO.nombreUsuario());
-        Usuario usuario = usuarioRepository.save(UsuarioMapper.toUsuarioEntity(usuarioDTO, personaDTO));
+        Usuario usuario = UsuarioMapper.toUsuarioEntity(usuarioDTO, personaDTO);
+        usuario.generarUserName();
+        existsByUsername(usuario.getNombreUsuario());
+        usuarioRepository.save(usuario);
         return UsuarioMapper.toUsuarioDTO(usuario);
     }
 
