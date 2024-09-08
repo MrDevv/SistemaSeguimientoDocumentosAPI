@@ -1,9 +1,12 @@
 package com.mrdevv.payload.mapper;
 
+import com.mrdevv.model.Area;
+import com.mrdevv.model.Usuario;
 import com.mrdevv.model.UsuarioArea;
 import com.mrdevv.payload.dto.persona.ResponsePersonaDTO;
 import com.mrdevv.payload.dto.rol.ResponseRolDTO;
 import com.mrdevv.payload.dto.usuario.ResponseUsuarioDTO;
+import com.mrdevv.payload.dto.usuario_area.CreateUsuarioAreaDTO;
 import com.mrdevv.payload.dto.usuario_area.ResponseUsuarioAreaDTO;
 
 import java.util.ArrayList;
@@ -12,10 +15,10 @@ import java.util.List;
 
 public class UsuarioAreaMapper {
 
-    public static List<ResponseUsuarioAreaDTO> toUsuarioAreaListDTO(List<Object[]> usuariosArea){
+    public static List<ResponseUsuarioAreaDTO> toUsuarioAreaListDTO(List<Object[]> usuariosArea) {
         List<ResponseUsuarioAreaDTO> usuariosAreaDTO = new ArrayList<>();
 
-        for (Object[] result: usuariosArea){
+        for (Object[] result : usuariosArea) {
             long idArea = ((Number) result[0]).longValue();
             Date fecha = (Date) result[1];
             String nombre = (String) result[2];
@@ -44,5 +47,30 @@ public class UsuarioAreaMapper {
         }
 
         return usuariosAreaDTO;
+    }
+
+    public static UsuarioArea toUsuarioAreaEntity(CreateUsuarioAreaDTO usuarioAreaDTO, ResponseUsuarioDTO usuarioDTO) {
+        return UsuarioArea.builder()
+                .usuario(UsuarioMapper.responseToUsuarioEntity(usuarioDTO))
+                .area(Area.builder().id(usuarioAreaDTO.areaId()).build())
+                .build();
+    }
+
+    public static UsuarioArea responseToUsuarioAreaEntity(ResponseUsuarioAreaDTO usuarioAreaDTO, ResponseUsuarioDTO usuarioDTO) {
+        return UsuarioArea.builder()
+                .usuario(UsuarioMapper.responseToUsuarioEntity(usuarioDTO))
+                .area(Area.builder().descripcion(usuarioAreaDTO.area()).build())
+//                .area(Area.builder().id(usuarioAreaDTO.areaId()).build())
+                .build();
+    }
+
+    public static ResponseUsuarioAreaDTO toUsuarioAreaDTO(UsuarioArea usuarioArea){
+        return new ResponseUsuarioAreaDTO(
+                usuarioArea.getId(),
+                usuarioArea.getFechaIngreso(),
+                usuarioArea.getArea().getDescripcion(),
+                UsuarioMapper.toUsuarioDTO(usuarioArea.getUsuario()),
+                UsuarioArea.convertirEstado(usuarioArea.getEstado())
+        );
     }
 }

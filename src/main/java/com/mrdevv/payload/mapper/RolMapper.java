@@ -11,4 +11,11 @@ public class RolMapper {
                 rol.getDescripcion()
         );
     }
+
+    public static Rol toRolEntity(ResponseRolDTO rol){
+        return Rol.builder()
+                .id(rol.id())
+                .descripcion(rol.descripcion())
+                .build();
+    }
 }

@@ -31,5 +31,7 @@ public class Usuario {
 
     String password;
 
-    Boolean estado;
+    @Builder.Default
+    @Column(insertable = false, updatable = false)
+    Boolean estado = true;
 }

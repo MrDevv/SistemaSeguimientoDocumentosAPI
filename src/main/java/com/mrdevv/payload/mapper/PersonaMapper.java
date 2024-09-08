@@ -15,6 +15,16 @@ public class PersonaMapper {
                 .build();
     }
 
+    public static Persona responseToPersonaEntity(ResponsePersonaDTO personaDTO){
+        return Persona.builder()
+                .id(personaDTO.id())
+                .nombres(personaDTO.nombres())
+                .apellidos(personaDTO.apellidos())
+                .dni(personaDTO.dni())
+                .celular(personaDTO.celular())
+                .build();
+    }
+
     public static ResponsePersonaDTO toPersonaDTO(Persona persona){
         return new ResponsePersonaDTO(
                 persona.getId(),

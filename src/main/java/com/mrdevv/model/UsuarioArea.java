@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
@@ -25,9 +26,15 @@ public class UsuarioArea {
     @ManyToOne
     @JoinColumn(name = "AREA_ID")
     Area area;
+
+    @CreationTimestamp
+    @Column(updatable = false, insertable = false)
     Date fechaIngreso;
     Date fechaSalida;
-    Character estado;
+
+    @Builder.Default
+    @Column(insertable = false, updatable = false)
+    Character estado =  'a';
 
     public static String convertirEstado(Character estado){
         switch (estado) {

@@ -22,4 +22,6 @@ public interface AreaRepository extends JpaRepository<Area, Long> {
     @Modifying
     @Procedure(procedureName = "sp_habilitar_area")
     void enableArea(@Param("id_area") Long id);
+
+    boolean existsAreaByDescripcion(String descripcion);
 }

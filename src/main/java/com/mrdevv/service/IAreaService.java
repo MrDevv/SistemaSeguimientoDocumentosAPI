@@ -17,4 +17,8 @@ public interface IAreaService {
 
     void disableArea(Long id);
     void enableArea(Long id);
+
+    void existsAreaById(Long id);
+
+    void existsByDescripcion(String descripcion);
 }

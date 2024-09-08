@@ -23,4 +23,11 @@ public class AreaMapper {
                     .descripcion(areaDTO.descripcion())
                     .build();
     }
+
+    public static Area responseToAreaEntity(ResponseAreaDTO areaDTO){
+        return Area.builder()
+                .id(areaDTO.id())
+                .descripcion(areaDTO.descripcion())
+                .build();
+    }
 }
