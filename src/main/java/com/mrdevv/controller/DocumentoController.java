@@ -1,0 +1,30 @@
+package com.mrdevv.controller;
+
+import com.mrdevv.payload.ResponseHandler;
+import com.mrdevv.payload.dto.documento.CreateDocumentoDTO;
+import com.mrdevv.payload.dto.documento.ResponseDocumentoDTO;
+import com.mrdevv.service.IDocumentoService;
+import com.mrdevv.utils.TipoResponse;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/documentos")
+public class DocumentoController {
+
+    private final IDocumentoService documentoService;
+
+    @Autowired
+    public DocumentoController(IDocumentoService documentoService){
+        this.documentoService = documentoService;
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> crearDocumento(@Valid @RequestBody CreateDocumentoDTO documentoDTO){
+        ResponseDocumentoDTO documento = documentoService.saveDocumento(documentoDTO);
+        return ResponseHandler.get(TipoResponse.CREATE, "Documento registrado correctamente", documento);
+    }
+
+}
