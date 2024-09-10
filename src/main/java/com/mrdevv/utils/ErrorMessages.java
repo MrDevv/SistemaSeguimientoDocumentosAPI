@@ -10,7 +10,10 @@ public enum ErrorMessages {
     AREA_NOT_FOUND_BACKEND("El área con id '%s' no se encontró en la base de datos."),
     AREA_NOT_FOUND_FRONT("No se encontró el área."),
     ROL_NOT_FOUND_BACKEND("El rol con el id '%s' no se encontró en la base de datos."),
-    ROL_NOT_FOUND_FRONT("No se encontró el rol.");
+    ROL_NOT_FOUND_FRONT("No se encontró el rol."),
+    TIPO_DOCUMENTO_NOT_FOUND_FRONT("No se encontró el tipo documento."),
+    TIPO_DOCUMENTO_NOT_FOUND_BACKEND("El tipo documento con el id '%s' no se encontró en la base de datos.");
+
 
     private final String mensaje;
 
