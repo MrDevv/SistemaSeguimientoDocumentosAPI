@@ -3,6 +3,7 @@ package com.mrdevv.service.impl;
 import com.mrdevv.model.Documento;
 import com.mrdevv.payload.dto.documento.CreateDocumentoDTO;
 import com.mrdevv.payload.dto.documento.ResponseDocumentoDTO;
+import com.mrdevv.payload.dto.documento.ResponseDocumentoDetalladoDTO;
 import com.mrdevv.payload.mapper.DocumentoMapper;
 import com.mrdevv.repository.DocumentoRepository;
 import com.mrdevv.service.IDocumentoEstadoService;
@@ -10,6 +11,8 @@ import com.mrdevv.service.IDocumentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class DocumentoServiceImpl implements IDocumentoService {
@@ -21,6 +24,13 @@ public class DocumentoServiceImpl implements IDocumentoService {
     public DocumentoServiceImpl(DocumentoRepository documentoRepository, IDocumentoEstadoService documentoEstadoService){
         this.documentoRepository = documentoRepository;
         this.documentoEstadoService = documentoEstadoService;
+    }
+
+    @Transactional
+    @Override
+    public List<ResponseDocumentoDetalladoDTO> getAllDocumentos(String estado, String numDocumento) {
+        List<Object[]> documentos = documentoRepository.getDocumentos(estado, numDocumento);
+        return DocumentoMapper.toDocumentoListDTO(documentos);
     }
 
     @Transactional
