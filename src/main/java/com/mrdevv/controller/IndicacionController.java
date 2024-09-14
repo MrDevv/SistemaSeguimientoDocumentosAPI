@@ -35,4 +35,10 @@ public class IndicacionController {
         ResponseIndicacionDTO indicacion = indicacionService.saveIndicacion(indicacionDTO);
         return ResponseHandler.get(TipoResponse.CREATE, "Indicacion registrada correctament", indicacion);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> actualizarIndicacion(@Valid @RequestBody CreateIndicacionDTO indicacionDTO, @PathVariable Long id){
+        ResponseIndicacionDTO indicacion = indicacionService.updateIndicacion(id, indicacionDTO);
+        return ResponseHandler.get(TipoResponse.GET, "Indicacion actualizada correctamente", indicacion);
+    }
 }

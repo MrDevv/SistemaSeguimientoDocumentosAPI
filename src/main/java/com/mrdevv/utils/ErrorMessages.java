@@ -16,7 +16,10 @@ public enum ErrorMessages {
     TIPO_DOCUMENTO_NOT_FOUND_FRONT("No se encontró el tipo documento."),
     TIPO_DOCUMENTO_NOT_FOUND_BACKEND("El tipo documento con el id '%s' no se encontró en la base de datos."),
     DOCUMENTO_NOT_FOUND_FRONT("No se encontró el documento."),
-    DOCUMENTO_NOT_FOUND_BACKEND("El documento con el id '%s' no se encontró en la base de datos.");
+    DOCUMENTO_NOT_FOUND_BACKEND("El documento con el id '%s' no se encontró en la base de datos."),
+    INDICACION_NOT_FOUND_FRONT("No se encontró la indicación."),
+    INDICACION_NOT_FOUND_BACKEND("La indicación con el id '%s' no se encontró en la base de datos.");
+
 
 
 
