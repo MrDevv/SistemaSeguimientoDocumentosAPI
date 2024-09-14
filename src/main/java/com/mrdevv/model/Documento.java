@@ -18,7 +18,7 @@ import java.util.Date;
 public class Documento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="MAE_DOCUMENTO")
+    @Column(name="DOCUMENTO_ID")
     Long id;
 
     @ManyToOne

@@ -7,6 +7,7 @@ import com.mrdevv.model.UsuarioArea;
 import com.mrdevv.payload.dto.documento.CreateDocumentoDTO;
 import com.mrdevv.payload.dto.documento.ResponseDocumentoDTO;
 import com.mrdevv.payload.dto.documento.ResponseDocumentoDetalladoDTO;
+import com.mrdevv.payload.dto.documento.UpdateDocumentoDTO;
 import com.mrdevv.payload.dto.tipoDocumento.ResponseTipoDocumentoDTO;
 
 import java.util.ArrayList;
@@ -24,6 +25,13 @@ public class DocumentoMapper {
                 .folios(documentoDTO.folios())
                 .estado(DocumentoEstado.builder().id(id).build())
                 .build();
+    }
+
+    public static void toDocumentoEntityUpdate(UpdateDocumentoDTO newDocumento, Documento oldDocumento){
+        oldDocumento.setTipoDocumento(TipoDocumento.builder().id(newDocumento.tipoDocumentoId()).build());
+        oldDocumento.setNumDocumento(newDocumento.numDocumento());
+        oldDocumento.setAsunto(newDocumento.asunto());
+        oldDocumento.setFolios(newDocumento.folios());
     }
 
     public static ResponseDocumentoDTO toDocumentoDTO(Documento documento) {

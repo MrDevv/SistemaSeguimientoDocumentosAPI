@@ -37,7 +37,6 @@ public class AreaController {
         return ResponseHandler.get(TipoResponse.GET,"Datos del area", area);
     }
 
-//    TODO: endpoint para obtener todos los usuarios de una determinda area, por filtro de activos, inactivos y todos
     @GetMapping("/{id}/usuarios")
     public ResponseEntity<Object> obtenerUsuarioByIdArea(@PathVariable Long id){
         ResponseUsuarioAreaSimpleDTO usuariosPorArea = areaService.getUsuariosActivosPorArea(id);

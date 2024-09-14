@@ -12,7 +12,10 @@ public enum ErrorMessages {
     ROL_NOT_FOUND_BACKEND("El rol con el id '%s' no se encontró en la base de datos."),
     ROL_NOT_FOUND_FRONT("No se encontró el rol."),
     TIPO_DOCUMENTO_NOT_FOUND_FRONT("No se encontró el tipo documento."),
-    TIPO_DOCUMENTO_NOT_FOUND_BACKEND("El tipo documento con el id '%s' no se encontró en la base de datos.");
+    TIPO_DOCUMENTO_NOT_FOUND_BACKEND("El tipo documento con el id '%s' no se encontró en la base de datos."),
+    DOCUMENTO_NOT_FOUND_FRONT("No se encontró el documento."),
+    DOCUMENTO_NOT_FOUND_BACKEND("El documento con el id '%s' no se encontró en la base de datos.");
+
 
 
     private final String mensaje;
