@@ -19,4 +19,19 @@ public class DocumentoEstadoServiceImpl implements IDocumentoEstadoService {
     public Long getIdEstadoNuevo() {
         return documentoEstadoRepository.getIdEstadoNuevoDocumento();
     }
+
+    @Override
+    public Long getIdEstadoRecepcionado() {
+        return documentoEstadoRepository.getIdEstadoDocumentoRecepcionado();
+    }
+
+    @Override
+    public Long getIdEstadoEnviado() {
+        return documentoEstadoRepository.getIdEstadoDocumentoEnviado();
+    }
+
+    @Override
+    public Long getIdEstadoPendienteRecepcion() {
+        return documentoEstadoRepository.getIdEstadoDocumentoPendienteRecepcion();
+    }
 }

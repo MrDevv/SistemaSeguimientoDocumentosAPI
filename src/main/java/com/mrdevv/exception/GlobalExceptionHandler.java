@@ -18,7 +18,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
             Exception.class,
             ObjectNotFoundException.class,
-            ObjectDuplicateExcepction.class
+            ObjectDuplicateExcepction.class,
+            PendingReceptionExcepcion.class
     })
     public ResponseEntity<ResponseError> handlerAllException(Exception exception, HttpServletRequest request, HttpServletResponse response){
         ZoneId zoneId = ZoneId.of("America/Lima");
@@ -28,9 +29,28 @@ public class GlobalExceptionHandler {
             return handlerObjectNotFoundException(objectNotFoundException, request, response, localDateTime);
         }else if (exception instanceof ObjectDuplicateExcepction objectDuplicateExcepction){
             return handlerDataIntegrityViolationException(objectDuplicateExcepction, request, response, localDateTime);
+        }else if (exception instanceof PendingReceptionExcepcion pendingReceptionExcepcion){
+            return handlerPendingReceptionExcepcion(pendingReceptionExcepcion, request, response, localDateTime);
         }
 
         return handlerException(exception, request, response, localDateTime);
+    }
+
+    private ResponseEntity<ResponseError> handlerPendingReceptionExcepcion(PendingReceptionExcepcion pendingReceptionExcepcion, HttpServletRequest request, HttpServletResponse response, LocalDateTime localDateTime) {
+        int  httpStatus = HttpStatus.CONFLICT.value();
+
+        ResponseError responseError = new ResponseError(
+                "Failed",
+                httpStatus,
+                request.getRequestURL().toString(),
+                request.getMethod(),
+                pendingReceptionExcepcion.getMessageFront(),
+                pendingReceptionExcepcion.getMessage(),
+                localDateTime,
+                null
+        );
+
+        return ResponseEntity.status(httpStatus).body(responseError);
     }
 
     private ResponseEntity<ResponseError> handlerDataIntegrityViolationException(ObjectDuplicateExcepction objectDuplicateExcepction, HttpServletRequest request, HttpServletResponse response, LocalDateTime localDateTime) {

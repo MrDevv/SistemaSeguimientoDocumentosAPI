@@ -18,9 +18,9 @@ public enum ErrorMessages {
     DOCUMENTO_NOT_FOUND_FRONT("No se encontró el documento."),
     DOCUMENTO_NOT_FOUND_BACKEND("El documento con el id '%s' no se encontró en la base de datos."),
     INDICACION_NOT_FOUND_FRONT("No se encontró la indicación."),
-    INDICACION_NOT_FOUND_BACKEND("La indicación con el id '%s' no se encontró en la base de datos.");
-
-
+    INDICACION_NOT_FOUND_BACKEND("La indicación con el id '%s' no se encontró en la base de datos."),
+    DOCUMENTO_PENDING_RECEPCION_FRONT("El documento tiene una recepción con estado 'pendiente de recepción', no puede registrar un nuevo envío hasta que no se confirme la recepción"),
+    DOCUMENTO_PENDING_RECEPCION_BACKEND("El object MAE_DOCUMENTO con key DOCUMENTO_ID: '%s' tiene una recepción en el object TRS_RECEPCION con estado 'pendiente de recepcion', no se puede registrar un nuevo envio si no se cambia el estado de la recepción anterior a 'recepcionado'");
 
 
     private final String mensaje;
