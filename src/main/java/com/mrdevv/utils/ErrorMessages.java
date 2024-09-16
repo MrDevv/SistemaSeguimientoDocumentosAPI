@@ -9,6 +9,8 @@ public enum ErrorMessages {
     USUARIO_DUPLICATE_FRONT("La el usuario '%s' ya se encuentra registrado."),
     INDICACION_DUPLICATE_BACKEND("Entrada duplicada '%s' para la llave mae_indicacion.DESCRIPCION"),
     INDICACION_DUPLICATE_FRONT("La indicación '%s' ya se encuentra registrada."),
+    DOCUMENTO_DUPLICATE_BACKEND("Entrada duplicada '%s' para la llave mae_indicacion.DESCRIPCION"),
+    DOCUMENTO_DUPLICATE_FRONT("El documento '%s' ya se encuentra registrado."),
     AREA_NOT_FOUND_BACKEND("El área con id '%s' no se encontró en la base de datos."),
     AREA_NOT_FOUND_FRONT("No se encontró el área."),
     ROL_NOT_FOUND_BACKEND("El rol con el id '%s' no se encontró en la base de datos."),

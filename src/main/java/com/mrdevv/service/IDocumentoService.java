@@ -14,4 +14,6 @@ public interface IDocumentoService {
 
     ResponseDocumentoDTO updateDocumento(Long id, UpdateDocumentoDTO documentoDTO);
 
+    void existsDocumentoByNumDocumento(String numDocumento);
+
 }

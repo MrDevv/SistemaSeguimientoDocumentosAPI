@@ -12,4 +12,6 @@ public interface DocumentoRepository extends JpaRepository<Documento, Long> {
     @Procedure(procedureName = "sp_listar_documentos")
     List<Object[]> getDocumentos(@Param("estado_documento") String estado, @Param("numero_documento") String numDocumento);
 
+    boolean existsDocumentoByNumDocumento(String numDocumento);
+
 }

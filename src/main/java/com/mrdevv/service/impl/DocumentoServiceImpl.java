@@ -1,5 +1,6 @@
 package com.mrdevv.service.impl;
 
+import com.mrdevv.exception.ObjectDuplicateExcepction;
 import com.mrdevv.exception.ObjectNotFoundException;
 import com.mrdevv.model.Documento;
 import com.mrdevv.payload.dto.documento.CreateDocumentoDTO;
@@ -39,6 +40,7 @@ public class DocumentoServiceImpl implements IDocumentoService {
     @Transactional
     @Override
     public ResponseDocumentoDTO saveDocumento(CreateDocumentoDTO documentoDTO) {
+        this.existsDocumentoByNumDocumento(documentoDTO.numDocumento());
         Long idEstadoNuevo = documentoEstadoService.getIdEstadoNuevo();
         Documento documento = documentoRepository.save(DocumentoMapper.toDocumentoEntity(documentoDTO, idEstadoNuevo));
         return DocumentoMapper.toDocumentoDTO(documento);
@@ -47,9 +49,20 @@ public class DocumentoServiceImpl implements IDocumentoService {
     @Override
     public ResponseDocumentoDTO updateDocumento(Long id, UpdateDocumentoDTO documentoDTO) {
         Documento oldDocumento = this.findDocumentoById(id);
+        this.existsDocumentoByNumDocumento(documentoDTO.numDocumento());
 //        TODO: validar si el estado del documento está en 'nuevo', si no está en nuevo no debería permitir actualizar
         DocumentoMapper.toDocumentoEntityUpdate(documentoDTO, oldDocumento);
         return DocumentoMapper.toDocumentoDTO(documentoRepository.save(oldDocumento));
+    }
+
+    @Override
+    public void existsDocumentoByNumDocumento(String numDocumento) {
+        if(documentoRepository.existsDocumentoByNumDocumento(numDocumento)){
+            throw new ObjectDuplicateExcepction(
+                    ErrorMessages.DOCUMENTO_DUPLICATE_BACKEND.getMessage(numDocumento),
+                    ErrorMessages.DOCUMENTO_DUPLICATE_FRONT.getMessage(numDocumento)
+            );
+        }
     }
 
     private Documento findDocumentoById(Long id) {
