@@ -16,4 +16,6 @@ public interface IDocumentoService {
 
     void existsDocumentoByNumDocumento(String numDocumento);
 
+    void finalizarSeguimiento(Long id);
+
 }

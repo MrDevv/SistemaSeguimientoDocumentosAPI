@@ -65,6 +65,13 @@ public class DocumentoServiceImpl implements IDocumentoService {
         }
     }
 
+    @Transactional
+    @Override
+    public void finalizarSeguimiento(Long idDocumento) {
+        Integer idEstadoFinalizado = documentoEstadoService.getIdEstadoSeguimientoFinalizado();
+        documentoRepository.finalizarSeguimiento(idEstadoFinalizado, idDocumento);
+    }
+
     private Documento findDocumentoById(Long id) {
         return documentoRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException(

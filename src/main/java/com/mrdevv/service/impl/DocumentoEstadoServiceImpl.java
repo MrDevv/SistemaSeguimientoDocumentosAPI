@@ -34,4 +34,9 @@ public class DocumentoEstadoServiceImpl implements IDocumentoEstadoService {
     public Long getIdEstadoPendienteRecepcion() {
         return documentoEstadoRepository.getIdEstadoDocumentoPendienteRecepcion();
     }
+
+    @Override
+    public Integer getIdEstadoSeguimientoFinalizado() {
+        return documentoEstadoRepository.getIdEstadoSeguimientoFinalizado();
+    }
 }

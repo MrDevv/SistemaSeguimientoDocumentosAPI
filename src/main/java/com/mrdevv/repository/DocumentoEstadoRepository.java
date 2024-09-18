@@ -18,4 +18,7 @@ public interface DocumentoEstadoRepository extends JpaRepository<DocumentoEstado
 
     @Query("SELECT d.id FROM DocumentoEstado d WHERE d.descripcion = 'pendiente recepcion'")
     Long getIdEstadoDocumentoPendienteRecepcion();
+
+    @Query("SELECT d.id FROM DocumentoEstado d WHERE d.descripcion = 'seguimiento finalizado'")
+    Integer getIdEstadoSeguimientoFinalizado();
 }
