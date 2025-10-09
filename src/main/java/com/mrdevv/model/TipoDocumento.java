@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "MAE_TIPO_DOCUMENTO")
+@Table(name = "mae_tipo_documento")
 public class TipoDocumento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TIPO_DOCUMENTO_ID")
+    @Column(name = "tipo_documento_id")
     Long id;
     String descripcion;
 }

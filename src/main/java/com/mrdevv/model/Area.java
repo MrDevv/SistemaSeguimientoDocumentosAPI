@@ -8,11 +8,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "MAE_AREA")
+@Table(name = "mae_area")
 public class Area {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="AREA_ID")
+    @Column(name="area_id")
     Long id;
 
     String descripcion;

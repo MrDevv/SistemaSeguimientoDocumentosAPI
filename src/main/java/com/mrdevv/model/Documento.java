@@ -14,22 +14,22 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "MAE_DOCUMENTO")
+@Table(name = "mae_documento")
 public class Documento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="DOCUMENTO_ID")
+    @Column(name="documento_id")
     Long id;
 
     @ManyToOne
-    @JoinColumn(name = "TIPO_DOCUMENTO_ID")
+    @JoinColumn(name = "tipo_documento_id")
     TipoDocumento tipoDocumento;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USUARIO_AREA_ID")
+    @JoinColumn(name = "usuario_area_id")
     UsuarioArea usuarioArea;
 
-    @Column(name = "NUMERO_DOCUMENTO")
+    @Column(name = "numero_documento")
     String numDocumento;
 
     String asunto;
@@ -40,6 +40,6 @@ public class Documento {
     Date fechaRegistro;
 
     @ManyToOne
-    @JoinColumn(name = "DOCUMENTO_ESTADO_ID")
+    @JoinColumn(name = "documento_estado_id")
     DocumentoEstado estado;
 }

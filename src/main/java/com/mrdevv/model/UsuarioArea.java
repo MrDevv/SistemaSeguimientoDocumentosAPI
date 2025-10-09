@@ -14,17 +14,17 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "TRD_USUARIO_AREA")
+@Table(name = "trd_usuario_area")
 public class UsuarioArea {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USUARIO_AREA_ID")
+    @Column(name = "usuario_area_id")
     Long id;
     @ManyToOne
-    @JoinColumn(name = "USUARIO_ID")
+    @JoinColumn(name = "usuario_id")
     Usuario usuario;
     @ManyToOne
-    @JoinColumn(name = "AREA_ID")
+    @JoinColumn(name = "area_id")
     Area area;
 
     @CreationTimestamp

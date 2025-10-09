@@ -11,20 +11,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "MAE_USUARIO")
+@Table(name = "mae_usuario")
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USUARIO_ID")
+    @Column(name = "usuario_id")
     Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PERSONA_ID")
+    @JoinColumn(name = "persona_id")
     Persona persona;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ROL_ID")
+    @JoinColumn(name = "rol_id")
     Rol rol;
 
     String nombreUsuario;

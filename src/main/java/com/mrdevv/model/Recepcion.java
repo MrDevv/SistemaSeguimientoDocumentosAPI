@@ -13,24 +13,24 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "TRS_RECEPCION")
+@Table(name = "trs_recepcion")
 public class Recepcion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "RECEPCION_ID")
+    @Column(name = "recepcion_id")
     Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ENVIO_ID")
+    @JoinColumn(name = "envio_id")
     Envio envio;
 
     @ManyToOne
-    @JoinColumn(name = "USUARIO_AREA_ID")
+    @JoinColumn(name = "usuario_area_id")
     UsuarioArea usuarioArea;
 
     Date fechaRecepcion;
 
     @ManyToOne
-    @JoinColumn(name = "DOCUMENTO_ESTADO_ID")
+    @JoinColumn(name = "documento_estado_id")
     DocumentoEstado estadoRecepcion;
 }
