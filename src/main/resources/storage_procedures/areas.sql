@@ -16,7 +16,8 @@ BEGIN
     WHERE
         (estado_area IS NULL OR a.estado = CASE WHEN estado_area THEN 1 ELSE 0 END)
         AND
-        (nombre_area IS NULL OR a.descripcion ILIKE '%' || nombre_area || '%');
+        (nombre_area IS NULL OR a.descripcion ILIKE '%' || nombre_area || '%')
+	ORDER BY a.area_id desc;
 END;
 $$;
 

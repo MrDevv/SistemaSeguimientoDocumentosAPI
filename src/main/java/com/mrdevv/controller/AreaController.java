@@ -58,13 +58,13 @@ public class AreaController {
     @PatchMapping("/{id}/deshabilitar")
     public ResponseEntity<Object> deshabilitarArea(@PathVariable Long id){
         areaService.disableArea(id);
-        return ResponseEntity.noContent().build();
+        return ResponseHandler.get(TipoResponse.PATCH, "Area deshabilitada correctamente", null);
     }
 
     @PatchMapping("/{id}/habilitar")
     public ResponseEntity<Object> habilitarArea(@PathVariable Long id){
         areaService.enableArea(id);
-        return ResponseEntity.noContent().build();
+        return ResponseHandler.get(TipoResponse.PATCH, "Area habilitada correctamente", null);
     }
 
 }
