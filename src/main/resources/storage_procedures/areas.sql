@@ -1,5 +1,5 @@
 CREATE OR REPLACE FUNCTION sp_listar_areas(
-    estado_area SMALLINT,
+    estado_area BOOLEAN,
     nombre_area VARCHAR(200)
 )
 RETURNS TABLE (
@@ -14,17 +14,16 @@ BEGIN
     SELECT a.area_id, a.descripcion, a.estado
     FROM mae_area a
     WHERE
-        (estado_area IS NULL OR a.estado = estado_area)
+        (estado_area IS NULL OR a.estado = CASE WHEN estado_area THEN 1 ELSE 0 END)
         AND
         (nombre_area IS NULL OR a.descripcion ILIKE '%' || nombre_area || '%');
 END;
 $$;
 
 -- deshabilitar area por id
-CREATE OR REPLACE FUNCTION sp_deshabilitar_area(
-    id_area INTEGER
+CREATE OR REPLACE PROCEDURE sp_deshabilitar_area(
+    id_area BIGINT
 )
-RETURNS VOID
 LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -33,10 +32,9 @@ END;
 $$;
 
 -- habilitar area por id
-CREATE OR REPLACE FUNCTION sp_habilitar_area(
-    id_area INTEGER
+CREATE OR REPLACE PROCEDURE sp_habilitar_area(
+    id_area BIGINT
 )
-RETURNS VOID
 LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -45,7 +43,7 @@ END;
 $$;
 
 CREATE OR REPLACE FUNCTION sp_listar_usuarios_activos_por_area(
-    id_area SMALLINT
+    id_area BIGINT
 )
 RETURNS TABLE (
     usuario_area_id INT,
