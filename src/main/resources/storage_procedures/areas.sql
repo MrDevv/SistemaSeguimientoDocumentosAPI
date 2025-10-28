@@ -1,49 +1,69 @@
-DELIMITER //
-CREATE PROCEDURE sp_listar_areas(
-    IN estado_area TINYINT,
-    IN nombre_area VARCHAR(200)
+CREATE OR REPLACE FUNCTION sp_listar_areas(
+    estado_area SMALLINT,
+    nombre_area VARCHAR(200)
 )
+RETURNS TABLE (
+    area_id INT,
+    descripcion VARCHAR,
+    estado SMALLINT
+)
+LANGUAGE plpgsql
+AS $$
 BEGIN
-	SELECT * FROM MAE_AREA
+    RETURN QUERY
+    SELECT a.area_id, a.descripcion, a.estado
+    FROM mae_area a
     WHERE
-    (estado_area IS NULL OR ESTADO = estado_area)
-    AND
-    (nombre_area IS NULL OR DESCRIPCION LIKE CONCAT('%', nombre_area, '%'));
-END //
-DELIMITER ;
+        (estado_area IS NULL OR a.estado = estado_area)
+        AND
+        (nombre_area IS NULL OR a.descripcion ILIKE '%' || nombre_area || '%');
+END;
+$$;
 
 -- deshabilitar area por id
-DELIMITER //
-CREATE PROCEDURE sp_deshabilitar_area(
-    IN id_area TINYINT    
+CREATE OR REPLACE FUNCTION sp_deshabilitar_area(
+    id_area INTEGER
 )
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
 BEGIN
-	UPDATE mae_area SET estado = 0 WHERE area_id = id_area; 
-END //
-DELIMITER ;
+    UPDATE mae_area SET estado = 0 WHERE area_id = id_area;
+END;
+$$;
 
 -- habilitar area por id
-DELIMITER //
-CREATE PROCEDURE sp_habilitar_area(
-    IN id_area TINYINT    
+CREATE OR REPLACE FUNCTION sp_habilitar_area(
+    id_area INTEGER
 )
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
 BEGIN
-	UPDATE mae_area SET estado = 1 WHERE area_id = id_area; 
-END //
-DELIMITER ;
+    UPDATE mae_area SET estado = 1 WHERE area_id = id_area;
+END;
+$$;
 
-DELIMITER //
-CREATE PROCEDURE sp_listar_usuarios_activos_por_area(
-	IN id_area TINYINT
+CREATE OR REPLACE FUNCTION sp_listar_usuarios_activos_por_area(
+    id_area SMALLINT
 )
+RETURNS TABLE (
+    usuario_area_id INT,
+    nombres VARCHAR,
+    apellidos VARCHAR
+)
+LANGUAGE plpgsql
+AS $$
 BEGIN
-	SELECT 
-    UA.USUARIO_AREA_ID,
-    P.NOMBRES,
-    P.APELLIDOS
-    FROM TRD_USUARIO_AREA UA    
-    INNER JOIN MAE_USUARIO U ON UA.USUARIO_ID = U.USUARIO_ID
-    INNER JOIN MAE_PERSONA P ON U.PERSONA_ID = P.PERSONA_ID
-    WHERE UA.AREA_ID = id_area AND UA.ESTADO = 'a';
-END //
-DELIMITER ;
+    RETURN QUERY
+    SELECT
+        ua.usuario_area_id,
+        p.nombres,
+        p.apellidos
+    FROM trd_usuario_area ua
+    INNER JOIN mae_usuario u ON ua.usuario_id = u.usuario_id
+    INNER JOIN mae_persona p ON u.persona_id = p.persona_id
+    WHERE ua.area_id = id_area
+      AND ua.estado = 'a';
+END;
+$$;
