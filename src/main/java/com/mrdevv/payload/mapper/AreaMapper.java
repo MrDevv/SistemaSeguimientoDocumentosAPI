@@ -1,20 +1,26 @@
 package com.mrdevv.payload.mapper;
 
 import com.mrdevv.model.Area;
+import com.mrdevv.payload.dto.PageableData;
+import com.mrdevv.payload.dto.ResponseWithPageable;
 import com.mrdevv.payload.dto.area.CreateAreaDTO;
 import com.mrdevv.payload.dto.area.ResponseAreaDTO;
 import com.mrdevv.payload.dto.usuario.ResponseUsuarioSimpleDTO;
 import com.mrdevv.payload.dto.usuario_area.ResponseUsuarioAreaSimpleDTO;
+import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AreaMapper {
 
-    public static List<ResponseAreaDTO> toAreaListDTO(List<Area> areas){
-        return areas.stream()
+    public static ResponseWithPageable<ResponseAreaDTO> toAreaListDTO(Page<Area> areas){
+        PageableData pageable = PageableMapper.toPageableData(areas);
+        List<ResponseAreaDTO> areaDTOS = areas.stream()
                 .map(area -> new ResponseAreaDTO(area.getId(), area.getDescripcion(), area.getEstado()))
                 .toList();
+
+        return new ResponseWithPageable(areaDTOS, pageable);
     }
 
     public static ResponseAreaDTO toAreaDTO(Area area){

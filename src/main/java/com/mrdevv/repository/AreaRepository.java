@@ -3,6 +3,8 @@ package com.mrdevv.repository;
 import com.mrdevv.model.Area;
 import com.mrdevv.payload.dto.usuario.ResponseUsuarioSimpleDTO;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,7 +18,7 @@ import java.util.List;
 public interface AreaRepository extends JpaRepository<Area, Long> {
 
     @Query(value = "select * from sp_listar_areas(:estado_area, :nombre_area)", nativeQuery = true)
-    List<Area> getAreas(@Param("estado_area") Boolean estado, @Param("nombre_area") String area);
+    Page<Area> getAreas(@Param("estado_area") Boolean estado, @Param("nombre_area") String area, Pageable pageable);
 
     @Query(value = "select * from sp_listar_usuarios_activos_por_area(:id_area)", nativeQuery = true)
     List<Object[]> getUsuariosByIdArea(@Param("id_area") Long id);

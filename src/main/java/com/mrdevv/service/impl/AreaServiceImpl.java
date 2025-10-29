@@ -3,6 +3,7 @@ package com.mrdevv.service.impl;
 import com.mrdevv.exception.ObjectDuplicateExcepction;
 import com.mrdevv.exception.ObjectNotFoundException;
 import com.mrdevv.model.Area;
+import com.mrdevv.payload.dto.ResponseWithPageable;
 import com.mrdevv.payload.dto.area.CreateAreaDTO;
 import com.mrdevv.payload.dto.area.ResponseAreaDTO;
 import com.mrdevv.payload.dto.usuario.ResponseUsuarioSimpleDTO;
@@ -12,29 +13,28 @@ import com.mrdevv.payload.mapper.UsuarioAreaMapper;
 import com.mrdevv.repository.AreaRepository;
 import com.mrdevv.service.IAreaService;
 import com.mrdevv.utils.ErrorMessages;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AreaServiceImpl implements IAreaService {
     private final AreaRepository areaRepository;
 
-    @Autowired
-    public AreaServiceImpl(AreaRepository areaRepository) {
-        this.areaRepository = areaRepository;
-    }
-
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
-    public List<ResponseAreaDTO> getAreas(Boolean estado, String area) {
-        List<Area> areas = areaRepository.getAreas(estado, area);
+    public ResponseWithPageable<ResponseAreaDTO> getAreas(Boolean estado, String area, Pageable pageable) {
+        Page<Area> areas = areaRepository.getAreas(estado, area, pageable);
         return AreaMapper.toAreaListDTO(areas);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public ResponseUsuarioAreaSimpleDTO getUsuariosActivosPorArea(Long idArea) {
         ResponseAreaDTO responseAreaDTO = this.getAreaById(idArea);

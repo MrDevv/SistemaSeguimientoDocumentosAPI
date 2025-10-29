@@ -1,13 +1,18 @@
 package com.mrdevv.controller;
 
 import com.mrdevv.payload.ResponseHandler;
+import com.mrdevv.payload.dto.ResponseWithPageable;
 import com.mrdevv.payload.dto.area.CreateAreaDTO;
 import com.mrdevv.payload.dto.area.ResponseAreaDTO;
 import com.mrdevv.payload.dto.usuario_area.ResponseUsuarioAreaSimpleDTO;
 import com.mrdevv.service.IAreaService;
 import com.mrdevv.utils.TipoResponse;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,19 +20,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/areas")
+@RequiredArgsConstructor
 public class AreaController {
 
     private final IAreaService areaService;
 
-    @Autowired
-    public AreaController(IAreaService areaService){
-        this.areaService = areaService;
-    }
-
     @GetMapping
-    public ResponseEntity<Object> listarAreas(@RequestParam(required = false) Boolean activo,
-                                              @RequestParam(required = false) String nombre){
-        List<ResponseAreaDTO> areas = areaService.getAreas(activo, nombre);
+    public ResponseEntity<Object> listarAreas(@RequestParam(required = false) Boolean activo, @RequestParam(required = false) String nombre,
+                                              @RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size){
+        Pageable pageable = PageRequest.of(page, size);
+        ResponseWithPageable areas = areaService.getAreas(activo, nombre, pageable);
         return ResponseHandler.get(TipoResponse.GETALL,"Listado de Areas", areas);
     }
 
