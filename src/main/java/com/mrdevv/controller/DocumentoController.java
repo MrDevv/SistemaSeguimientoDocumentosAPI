@@ -1,6 +1,7 @@
 package com.mrdevv.controller;
 
 import com.mrdevv.payload.ResponseHandler;
+import com.mrdevv.payload.dto.ResponseWithPageable;
 import com.mrdevv.payload.dto.documento.CreateDocumentoDTO;
 import com.mrdevv.payload.dto.documento.ResponseDocumentoDTO;
 import com.mrdevv.payload.dto.documento.ResponseDocumentoDetalladoDTO;
@@ -8,6 +9,8 @@ import com.mrdevv.payload.dto.documento.UpdateDocumentoDTO;
 import com.mrdevv.service.IDocumentoService;
 import com.mrdevv.utils.TipoResponse;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +19,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/documentos")
+@RequiredArgsConstructor
 public class DocumentoController {
 
     private final IDocumentoService documentoService;
-
-    @Autowired
-    public DocumentoController(IDocumentoService documentoService){
-        this.documentoService = documentoService;
-    }
 
     @PostMapping
     public ResponseEntity<Object> crearDocumento(@Valid @RequestBody CreateDocumentoDTO documentoDTO){
@@ -33,8 +32,10 @@ public class DocumentoController {
 
     @GetMapping
     public ResponseEntity<Object> listarDocumentos(@RequestParam(required = false) String estado,
-                                                   @RequestParam(required = false, name = "numeroDoc") String numDocumento){
-         List<ResponseDocumentoDetalladoDTO> documentos = documentoService.getAllDocumentos(estado, numDocumento);
+                                                   @RequestParam(required = false, name = "numeroDoc") String numDocumento,
+                                                   @RequestParam(defaultValue = "0") Integer page,
+                                                   @RequestParam(defaultValue = "10") Integer size){
+        ResponseWithPageable documentos = documentoService.getAllDocumentos(estado, numDocumento, page, size);
         return ResponseHandler.get(TipoResponse.GETALL, "Listado de documentos", documentos);
     }
 

@@ -18,10 +18,6 @@ public class ResponseHandler {
         response.put("message", mensaje);
         response.put("data", data);
 
-        if(tipoResponse.toString().equals(TipoResponse.GETALL.name())){
-            response.put("data_pageable", null);
-        }
-
         return ResponseEntity.status(tipoResponse.getStatus()).body(response);
     }
 }

@@ -3,6 +3,7 @@ package com.mrdevv.service.impl;
 import com.mrdevv.exception.ObjectDuplicateExcepction;
 import com.mrdevv.exception.ObjectNotFoundException;
 import com.mrdevv.model.Documento;
+import com.mrdevv.payload.dto.ResponseWithPageable;
 import com.mrdevv.payload.dto.documento.CreateDocumentoDTO;
 import com.mrdevv.payload.dto.documento.ResponseDocumentoDTO;
 import com.mrdevv.payload.dto.documento.ResponseDocumentoDetalladoDTO;
@@ -12,28 +13,28 @@ import com.mrdevv.repository.DocumentoRepository;
 import com.mrdevv.service.IDocumentoEstadoService;
 import com.mrdevv.service.IDocumentoService;
 import com.mrdevv.utils.ErrorMessages;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DocumentoServiceImpl implements IDocumentoService {
 
     private final DocumentoRepository documentoRepository;
     private final IDocumentoEstadoService documentoEstadoService;
 
-    @Autowired
-    public DocumentoServiceImpl(DocumentoRepository documentoRepository, IDocumentoEstadoService documentoEstadoService) {
-        this.documentoRepository = documentoRepository;
-        this.documentoEstadoService = documentoEstadoService;
-    }
-
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
-    public List<ResponseDocumentoDetalladoDTO> getAllDocumentos(String estado, String numDocumento) {
-        List<Object[]> documentos = documentoRepository.getDocumentos(estado, numDocumento);
+    public ResponseWithPageable getAllDocumentos(String estado, String numDocumento, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Object[]> documentos = documentoRepository.getDocumentos(estado, numDocumento, pageable);
         return DocumentoMapper.toDocumentoListDTO(documentos);
     }
 
@@ -46,6 +47,7 @@ public class DocumentoServiceImpl implements IDocumentoService {
         return DocumentoMapper.toDocumentoDTO(documento);
     }
 
+    @Transactional
     @Override
     public ResponseDocumentoDTO updateDocumento(Long id, UpdateDocumentoDTO documentoDTO) {
         Documento oldDocumento = this.findDocumentoById(id);
@@ -55,6 +57,7 @@ public class DocumentoServiceImpl implements IDocumentoService {
         return DocumentoMapper.toDocumentoDTO(documentoRepository.save(oldDocumento));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public void existsDocumentoByNumDocumento(String numDocumento) {
         if(documentoRepository.existsDocumentoByNumDocumento(numDocumento)){

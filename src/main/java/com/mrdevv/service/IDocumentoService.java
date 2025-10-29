@@ -1,14 +1,16 @@
 package com.mrdevv.service;
 
+import com.mrdevv.payload.dto.ResponseWithPageable;
 import com.mrdevv.payload.dto.documento.CreateDocumentoDTO;
 import com.mrdevv.payload.dto.documento.ResponseDocumentoDTO;
 import com.mrdevv.payload.dto.documento.ResponseDocumentoDetalladoDTO;
 import com.mrdevv.payload.dto.documento.UpdateDocumentoDTO;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface IDocumentoService {
-    List<ResponseDocumentoDetalladoDTO> getAllDocumentos(String estado, String numDocumento);
+    ResponseWithPageable getAllDocumentos(String estado, String numDocumento, Integer page, Integer size);
 
     ResponseDocumentoDTO saveDocumento(CreateDocumentoDTO documentoDTO);
 

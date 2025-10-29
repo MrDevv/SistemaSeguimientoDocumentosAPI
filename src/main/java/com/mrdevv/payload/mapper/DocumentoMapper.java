@@ -4,11 +4,14 @@ import com.mrdevv.model.Documento;
 import com.mrdevv.model.DocumentoEstado;
 import com.mrdevv.model.TipoDocumento;
 import com.mrdevv.model.UsuarioArea;
+import com.mrdevv.payload.dto.PageableData;
+import com.mrdevv.payload.dto.ResponseWithPageable;
 import com.mrdevv.payload.dto.documento.CreateDocumentoDTO;
 import com.mrdevv.payload.dto.documento.ResponseDocumentoDTO;
 import com.mrdevv.payload.dto.documento.ResponseDocumentoDetalladoDTO;
 import com.mrdevv.payload.dto.documento.UpdateDocumentoDTO;
 import com.mrdevv.payload.dto.tipoDocumento.ResponseTipoDocumentoDTO;
+import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,8 +50,9 @@ public class DocumentoMapper {
         );
     }
 
-    public static List<ResponseDocumentoDetalladoDTO> toDocumentoListDTO(List<Object[]> documentosDb) {
+    public static ResponseWithPageable toDocumentoListDTO(Page<Object[]> documentosDb) {
         List<ResponseDocumentoDetalladoDTO> documentos = new ArrayList();
+        PageableData pageableData = PageableMapper.toPageableData(documentosDb);
 
         documentosDb.stream().forEach(documento -> {
             Long idDocumento = ((Number) documento[0]).longValue();
@@ -81,6 +85,6 @@ public class DocumentoMapper {
 
             documentos.add(documentoDetalladoDTO);
         });
-        return documentos;
+        return new ResponseWithPageable(documentos, pageableData);
     }
 }
