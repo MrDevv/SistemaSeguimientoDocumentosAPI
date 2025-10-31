@@ -9,6 +9,7 @@ import com.mrdevv.payload.mapper.IndicacionMapper;
 import com.mrdevv.repository.IndicacionRepository;
 import com.mrdevv.service.IIndicacionService;
 import com.mrdevv.utils.ErrorMessages;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,14 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class IndicacionServiceImpl implements IIndicacionService {
 
     private final IndicacionRepository indicacionRepository;
-
-    @Autowired
-    public IndicacionServiceImpl(IndicacionRepository indicacionRepository) {
-        this.indicacionRepository = indicacionRepository;
-    }
 
     @Transactional
     @Override
