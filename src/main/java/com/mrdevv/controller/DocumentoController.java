@@ -48,7 +48,7 @@ public class DocumentoController {
     @PatchMapping("/{id}/finalizarSeguimiento")
     public ResponseEntity<Object> finalizarSeguimientoDocumento(@PathVariable(name = "id") Long idDocumento){
         documentoService.finalizarSeguimiento(idDocumento);
-        return ResponseEntity.noContent().build();
+        return ResponseHandler.get(TipoResponse.GET, "Documento finalizado correctamente", null);
     }
 
 }
