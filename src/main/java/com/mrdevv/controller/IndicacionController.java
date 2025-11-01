@@ -6,6 +6,7 @@ import com.mrdevv.payload.dto.indicacion.ResponseIndicacionDTO;
 import com.mrdevv.service.IIndicacionService;
 import com.mrdevv.utils.TipoResponse;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,14 +16,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/indicaciones")
+@RequiredArgsConstructor
 public class IndicacionController {
 
     private final IIndicacionService indicacionService;
-
-    @Autowired
-    public IndicacionController(IIndicacionService indicacionService){
-        this.indicacionService = indicacionService;
-    }
 
     @GetMapping
     public ResponseEntity<Object> listarIndicaciones(@RequestParam(required = false) String descripcion){
