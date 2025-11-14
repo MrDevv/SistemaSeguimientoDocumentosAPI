@@ -3,11 +3,14 @@ package com.mrdevv.payload.mapper;
 import com.mrdevv.model.Area;
 import com.mrdevv.model.Usuario;
 import com.mrdevv.model.UsuarioArea;
+import com.mrdevv.payload.dto.PageableData;
+import com.mrdevv.payload.dto.ResponseWithPageable;
 import com.mrdevv.payload.dto.persona.ResponsePersonaDTO;
 import com.mrdevv.payload.dto.rol.ResponseRolDTO;
 import com.mrdevv.payload.dto.usuario.ResponseUsuarioDTO;
 import com.mrdevv.payload.dto.usuario_area.CreateUsuarioAreaDTO;
 import com.mrdevv.payload.dto.usuario_area.ResponseUsuarioAreaDTO;
+import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +18,8 @@ import java.util.List;
 
 public class UsuarioAreaMapper {
 
-    public static List<ResponseUsuarioAreaDTO> toUsuarioAreaListDTO(List<Object[]> usuariosArea) {
+    public static ResponseWithPageable toUsuarioAreaListDTO(Page<Object[]> usuariosArea) {
+        PageableData pageableData = PageableMapper.toPageableData(usuariosArea);
         List<ResponseUsuarioAreaDTO> usuariosAreaDTO = new ArrayList<>();
 
         for (Object[] result : usuariosArea) {
@@ -34,8 +38,7 @@ public class UsuarioAreaMapper {
 
             long idRol = ((Number) result[10]).longValue();
             String nombreRol = (String) result[11];
-
-            String estado = UsuarioArea.convertirEstado((Character) result[12]);
+            String estado = UsuarioArea.convertirEstado((String) result[12]);
 
             ResponsePersonaDTO personaDTO = new ResponsePersonaDTO(idPersona, nombrePersona, apellidoPersona, emailPersona, telefonoPersona);
             ResponseRolDTO rolDTO = new ResponseRolDTO(idRol, nombreRol);
@@ -46,7 +49,7 @@ public class UsuarioAreaMapper {
             usuariosAreaDTO.add(usuarioAreaDTO);
         }
 
-        return usuariosAreaDTO;
+        return new ResponseWithPageable(usuariosAreaDTO, pageableData);
     }
 
     public static UsuarioArea toUsuarioAreaEntity(CreateUsuarioAreaDTO usuarioAreaDTO, ResponseUsuarioDTO usuarioDTO) {

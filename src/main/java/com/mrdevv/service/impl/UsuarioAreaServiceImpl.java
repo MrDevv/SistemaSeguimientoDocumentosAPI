@@ -1,6 +1,7 @@
 package com.mrdevv.service.impl;
 
 import com.mrdevv.model.UsuarioArea;
+import com.mrdevv.payload.dto.ResponseWithPageable;
 import com.mrdevv.payload.dto.area.ResponseAreaDTO;
 import com.mrdevv.payload.dto.persona.ResponsePersonaDTO;
 import com.mrdevv.payload.dto.rol.ResponseRolDTO;
@@ -13,10 +14,10 @@ import com.mrdevv.payload.mapper.UsuarioAreaMapper;
 import com.mrdevv.repository.UsuarioAreaRepository;
 import com.mrdevv.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class UsuarioAreaServiceImpl implements IUsuarioAreaService {
@@ -38,10 +39,10 @@ public class UsuarioAreaServiceImpl implements IUsuarioAreaService {
         this.rolService = rolService;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
-    public List<ResponseUsuarioAreaDTO> getUsuariosArea() {
-        List<Object[]> usuarioArea = usuarioAreaRepository.getUsuariosArea();
+    public ResponseWithPageable getUsuariosArea(Pageable pageable) {
+        Page<Object[]> usuarioArea = usuarioAreaRepository.getUsuariosArea(pageable);
         return UsuarioAreaMapper.toUsuarioAreaListDTO(usuarioArea);
     }
 

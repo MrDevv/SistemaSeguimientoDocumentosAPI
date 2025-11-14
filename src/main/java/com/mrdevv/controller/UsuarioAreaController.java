@@ -1,12 +1,17 @@
 package com.mrdevv.controller;
 
 import com.mrdevv.payload.ResponseHandler;
+import com.mrdevv.payload.dto.ResponseWithPageable;
 import com.mrdevv.payload.dto.usuario_area.CreateUsuarioAreaDTO;
 import com.mrdevv.payload.dto.usuario_area.ResponseUsuarioAreaDTO;
 import com.mrdevv.service.IUsuarioAreaService;
 import com.mrdevv.utils.TipoResponse;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,18 +19,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
+@RequiredArgsConstructor
 public class UsuarioAreaController {
 
     private final IUsuarioAreaService usuarioAreaService;
 
-    @Autowired
-    public UsuarioAreaController(IUsuarioAreaService usuarioAreaService){
-        this.usuarioAreaService = usuarioAreaService;
-    }
-
     @GetMapping
-    public ResponseEntity<Object> getUsuarios(){
-        List<ResponseUsuarioAreaDTO> usuariosArea = usuarioAreaService.getUsuariosArea();
+    public ResponseEntity<Object> getUsuarios(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size){
+        Pageable pageable = PageRequest.of(page, size);
+        ResponseWithPageable<ResponseUsuarioAreaDTO> usuariosArea = usuarioAreaService.getUsuariosArea(pageable);
         return ResponseHandler.get(TipoResponse.GETALL, "Listado de usuarios", usuariosArea);
     }
 

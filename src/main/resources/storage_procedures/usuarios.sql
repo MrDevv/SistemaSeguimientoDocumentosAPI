@@ -1,19 +1,36 @@
-DELIMITER //
-CREATE PROCEDURE sp_listar_usuarios_area(
+CREATE OR REPLACE FUNCTION sp_listar_usuarios_area(
 )
+RETURNS TABLE(
+	usuario_area_id INT,
+	fecha_ingreso TIMESTAMP,
+	area VARCHAR,
+	usuario_id INT,
+	usuario VARCHAR,
+	persona_id INT,
+	nombres VARCHAR,
+	apellidos VARCHAR,
+	dni VARCHAR,
+	celular VARCHAR,
+	rol_id INT,
+	rol VARCHAR,
+	estado CHAR
+)
+LANGUAGE plpgsql
+AS $$
 BEGIN
+	RETURN QUERY
 	SELECT 
-    UA.USUARIO_AREA_ID, 
-    UA.FECHA_INGRESO,     
-    A.DESCRIPCION,     
-    U.USUARIO_ID, U.NOMBRE_USUARIO AS USER,
-    P.PERSONA_ID, P.NOMBRES, P.APELLIDOS, P.DNI, P.CELULAR,
-    R.ROL_ID, R.DESCRIPCION,
-    UA.ESTADO
-    FROM TRD_USUARIO_AREA UA
-    INNER JOIN MAE_AREA A ON UA.AREA_ID = A.AREA_ID
-    INNER JOIN MAE_USUARIO U ON UA.USUARIO_ID = U.USUARIO_ID
-    INNER JOIN MAE_PERSONA P ON U.PERSONA_ID = P.PERSONA_ID
-    INNER JOIN MAE_ROL R ON U.ROL_ID = R.ROL_ID;
-END //
-DELIMITER ;
+    ua.usuario_area_id, 
+    ua.fecha_ingreso,     
+    a.descripcion,     
+    u.usuario_id, U.nombre_usuario AS usuario,
+    p.persona_id, p.nombres, p.apellidos, p.dni, p.celular,
+    r.rol_id, r.descripcion,
+    ua.estado
+    FROM trd_usuario_area ua
+    INNER JOIN mae_area a ON ua.area_id = a.area_id
+    INNER JOIN mae_usuario u ON ua.usuario_id = u.usuario_id
+    INNER JOIN mae_persona p ON u.persona_id = p.persona_id
+    INNER JOIN mae_rol r ON u.rol_id = r.rol_id;
+END;
+$$;

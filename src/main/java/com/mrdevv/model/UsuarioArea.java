@@ -34,15 +34,16 @@ public class UsuarioArea {
 
     @Builder.Default
     @Column(insertable = false, updatable = false)
-    Character estado =  'a';
+    String estado =  "a";
 
-    public static String convertirEstado(Character estado){
+    public static String convertirEstado(String estado){
+        System.out.println(estado);
         switch (estado) {
-            case 'a':
+            case "a":
                 return "activo";
-            case 'i':
+            case "i":
                 return "inactivo";
-            case 's':
+            case "s":
                 return "suspendido";
             default:
                 return "estado desconocido";
