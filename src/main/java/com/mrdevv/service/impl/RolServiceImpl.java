@@ -7,18 +7,15 @@ import com.mrdevv.payload.mapper.RolMapper;
 import com.mrdevv.repository.RolRepository;
 import com.mrdevv.service.IRolService;
 import com.mrdevv.utils.ErrorMessages;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class RolServiceImpl implements IRolService {
 
     private final RolRepository rolRepository;
-
-    @Autowired
-    public RolServiceImpl(RolRepository rolRepository) {
-        this.rolRepository = rolRepository;
-    }
 
     @Override
     public ResponseRolDTO rolById(Long id) {

@@ -1,25 +1,27 @@
 package com.mrdevv.service.impl;
 
+import com.mrdevv.model.Usuario;
 import com.mrdevv.model.UsuarioArea;
 import com.mrdevv.payload.dto.ResponseWithPageable;
 import com.mrdevv.payload.dto.area.ResponseAreaDTO;
+import com.mrdevv.payload.dto.persona.CreatePersonaDTO;
 import com.mrdevv.payload.dto.persona.ResponsePersonaDTO;
+import com.mrdevv.payload.dto.persona.UpdatePersonaDTO;
 import com.mrdevv.payload.dto.rol.ResponseRolDTO;
 import com.mrdevv.payload.dto.usuario.ResponseUsuarioDTO;
 import com.mrdevv.payload.dto.usuario_area.CreateUsuarioAreaDTO;
 import com.mrdevv.payload.dto.usuario_area.ResponseUsuarioAreaDTO;
-import com.mrdevv.payload.mapper.AreaMapper;
-import com.mrdevv.payload.mapper.RolMapper;
-import com.mrdevv.payload.mapper.UsuarioAreaMapper;
+import com.mrdevv.payload.mapper.*;
 import com.mrdevv.repository.UsuarioAreaRepository;
 import com.mrdevv.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class UsuarioAreaServiceImpl implements IUsuarioAreaService {
 
     private final UsuarioAreaRepository usuarioAreaRepository;
@@ -28,16 +30,6 @@ public class UsuarioAreaServiceImpl implements IUsuarioAreaService {
     private final IPersonaService personaService;
     private final IUsuarioServices usuarioService;
     private final IRolService rolService;
-
-    @Autowired
-    public UsuarioAreaServiceImpl(UsuarioAreaRepository usuarioAreaRepository, IAreaService areaService,
-                                  IPersonaService personaService, IUsuarioServices usuarioService, IRolService rolService){
-        this.usuarioAreaRepository = usuarioAreaRepository;
-        this.areaService = areaService;
-        this.personaService = personaService;
-        this.usuarioService = usuarioService;
-        this.rolService = rolService;
-    }
 
     @Transactional(readOnly = true)
     @Override
@@ -58,5 +50,15 @@ public class UsuarioAreaServiceImpl implements IUsuarioAreaService {
         usuarioArea.getUsuario().setRol(RolMapper.toRolEntity(rolDTO));
 
         return UsuarioAreaMapper.toUsuarioAreaDTO(usuarioArea);
+    }
+
+    @Transactional
+    @Override
+    public ResponseUsuarioDTO updateUsuario(Long id, CreatePersonaDTO createPersonaDTO) {
+        Usuario usuario = usuarioService.findById(id);
+        personaService.updatePersona(usuario.getPersona().getId(), createPersonaDTO);
+        usuario.generarUserName();
+        usuarioService.updateNombreUsuario(usuario.getId(), usuario.getNombreUsuario());
+        return UsuarioMapper.toUsuarioDTO(usuario);
     }
 }
