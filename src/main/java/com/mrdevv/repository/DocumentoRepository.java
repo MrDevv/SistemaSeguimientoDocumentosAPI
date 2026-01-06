@@ -23,4 +23,8 @@ public interface DocumentoRepository extends JpaRepository<Documento, Long> {
     @Modifying
     @Query(value = "UPDATE MAE_DOCUMENTO SET DOCUMENTO_ESTADO_ID = :id_estado_finalizado WHERE DOCUMENTO_ID = :id_documento", nativeQuery = true)
     void finalizarSeguimiento(@Param("id_estado_finalizado") Integer id, @Param("id_documento") Long idDocumento);
+
+    @Modifying
+    @Query(value = "UPDATE MAE_DOCUMENTO SET DOCUMENTO_ESTADO_ID = :id_estado_en_seguimiento WHERE DOCUMENTO_ID = :id_documento", nativeQuery = true)
+    void iniciarSeguimiento(@Param("id_estado_en_seguimiento") Integer id, @Param("id_documento") Long idDocumento);
 }

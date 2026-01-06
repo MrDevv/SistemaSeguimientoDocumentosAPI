@@ -11,4 +11,6 @@ public interface IDocumentoEstadoService {
     Long getIdEstadoPendienteRecepcion();
 
     Integer getIdEstadoSeguimientoFinalizado();
+
+    Integer getIdEstadoEnSeguimiento();
 }

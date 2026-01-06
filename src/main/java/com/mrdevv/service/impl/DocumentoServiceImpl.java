@@ -59,6 +59,13 @@ public class DocumentoServiceImpl implements IDocumentoService {
 
     @Transactional(readOnly = true)
     @Override
+    public ResponseDocumentoDTO getDocumentoById(Long id) {
+        Documento documento = this.findDocumentoById(id);
+        return DocumentoMapper.toDocumentoDTO(documento);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
     public void existsDocumentoByNumDocumento(String numDocumento) {
         if(documentoRepository.existsDocumentoByNumDocumento(numDocumento)){
             throw new ObjectDuplicateExcepction(
@@ -66,6 +73,13 @@ public class DocumentoServiceImpl implements IDocumentoService {
                     ErrorMessages.DOCUMENTO_DUPLICATE_FRONT.getMessage(numDocumento)
             );
         }
+    }
+
+    @Transactional
+    @Override
+    public void iniciarSeguimiento(Long idDocumento) {
+        Integer idEstadoActivo = documentoEstadoService.getIdEstadoEnSeguimiento();
+        documentoRepository.iniciarSeguimiento(idEstadoActivo, idDocumento);
     }
 
     @Transactional

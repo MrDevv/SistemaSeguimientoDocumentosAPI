@@ -16,7 +16,11 @@ public interface IDocumentoService {
 
     ResponseDocumentoDTO updateDocumento(Long id, UpdateDocumentoDTO documentoDTO);
 
+    ResponseDocumentoDTO getDocumentoById(Long id);
+
     void existsDocumentoByNumDocumento(String numDocumento);
+
+    void iniciarSeguimiento(Long idDocumento);
 
     void finalizarSeguimiento(Long id);
 

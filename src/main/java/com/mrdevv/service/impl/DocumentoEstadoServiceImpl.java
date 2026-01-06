@@ -39,4 +39,9 @@ public class DocumentoEstadoServiceImpl implements IDocumentoEstadoService {
     public Integer getIdEstadoSeguimientoFinalizado() {
         return documentoEstadoRepository.getIdEstadoSeguimientoFinalizado();
     }
+
+    @Override
+    public Integer getIdEstadoEnSeguimiento() {
+        return documentoEstadoRepository.getIdEstadoEnSeguimiento();
+    }
 }

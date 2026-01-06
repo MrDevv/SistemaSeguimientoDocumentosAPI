@@ -21,4 +21,7 @@ public interface DocumentoEstadoRepository extends JpaRepository<DocumentoEstado
 
     @Query("SELECT d.id FROM DocumentoEstado d WHERE d.descripcion = 'seguimiento finalizado'")
     Integer getIdEstadoSeguimientoFinalizado();
+
+    @Query("SELECT d.id FROM DocumentoEstado d WHERE d.descripcion = 'en seguimiento'")
+    Integer getIdEstadoEnSeguimiento();
 }

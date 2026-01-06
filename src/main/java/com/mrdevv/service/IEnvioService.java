@@ -6,4 +6,6 @@ import com.mrdevv.payload.dto.envio.ResponseEnvioDTO;
 public interface IEnvioService {
 
     ResponseEnvioDTO saveEnvio(CreateEnvioDTO envioDTO);
+
+    void cancelarEnvio(Long idEnvio);
 }

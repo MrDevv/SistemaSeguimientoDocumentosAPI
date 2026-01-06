@@ -43,4 +43,8 @@ public class Envio {
 
     @CreationTimestamp
     Date fechaEnvio;
+
+    @ManyToOne
+    @JoinColumn(name = "documento_estado_id")
+    DocumentoEstado documentoEstado;
 }

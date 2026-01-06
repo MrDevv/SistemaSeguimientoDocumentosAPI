@@ -1,7 +1,7 @@
 ----------- INSERT DE DATOS INICIALES DEL SISTEMA
 
 -- Estados del sistema
-insert into mae_documento_estado(descripcion) values('nuevo'), ('recepcionado'), ('enviado'), ('pendiente recepcion'), ('seguimiento finalizado');
+insert into mae_documento_estado(descripcion) values('nuevo'), ('recepcionado'), ('enviado'), ('pendiente recepcion'), ('seguimiento finalizado'), ('en seguimiento');
 
 -- Roles del sistema
 insert into mae_rol(descripcion) values('administrador'), ('administrador área'), ('usuario');
