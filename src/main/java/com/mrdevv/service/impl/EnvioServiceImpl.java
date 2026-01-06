@@ -1,8 +1,7 @@
 package com.mrdevv.service.impl;
 
 import com.mrdevv.exception.ObjectNotFoundException;
-import com.mrdevv.exception.PendingReceptionExcepcion;
-import com.mrdevv.model.Documento;
+import com.mrdevv.exception.ConflictExcepcion;
 import com.mrdevv.model.DocumentoEstado;
 import com.mrdevv.model.Envio;
 import com.mrdevv.payload.dto.documento.ResponseDocumentoDTO;
@@ -18,7 +17,6 @@ import com.mrdevv.service.IEnvioService;
 import com.mrdevv.service.IRecepcionService;
 import com.mrdevv.utils.ErrorMessages;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,23 +48,29 @@ public class EnvioServiceImpl implements IEnvioService {
         return EnvioMapper.toEnvioDTO(envio);
     }
 
-//    TODO: cancelar un envío
+    @Override
+    public Envio findEnvioById(Long idEnvio) {
+        return envioRepository.findById(idEnvio).orElseThrow(() -> {
+            throw new ObjectNotFoundException(
+                    ErrorMessages.ENVIO_NOT_FOUND_BACKEND.getMessage(idEnvio),
+                    ErrorMessages.ENVIO_NOT_FOUND_FRONT.getMessage()
+            );
+        });
+    }
+
     @Transactional
     @Override
     public void cancelarEnvio(Long idEnvio) {
-           Envio envio = envioRepository.findById(idEnvio).orElseThrow(() -> {
-               throw new ObjectNotFoundException(
-                       ErrorMessages.ENVIO_NOT_FOUND_BACKEND.getMessage(idEnvio),
-                       ErrorMessages.ENVIO_NOT_FOUND_FRONT.getMessage()
-                       );
-           });
-
-//           if (envio.getdocu)
+        Envio envio = this.findEnvioById(idEnvio);
+        documentoService.validarEstadoDocumentoEnSeguimiento(envio.getDocumento().getId());
+        recepcionService.validarEstadoPendienteDeRecepcionByIdEnvio(idEnvio);
+        recepcionService.eliminarRecepcionByEnvioId(idEnvio);
+        envioRepository.deleteById(idEnvio);
     }
 
     private void validarEstadoRecepcionDeDocumento(ResponseRecepcionEstadoSimpleDTO estadoRecepcionDocumento, Long idDocumento){
         if (estadoRecepcionDocumento.estadoRecepcion() != null && estadoRecepcionDocumento.estadoRecepcion().equalsIgnoreCase("pendiente recepcion")){
-            throw new PendingReceptionExcepcion(
+            throw new ConflictExcepcion(
                     ErrorMessages.DOCUMENTO_PENDING_RECEPCION_BACKEND.getMessage(idDocumento),
                     ErrorMessages.DOCUMENTO_PENDING_RECEPCION_FRONT.getMessage()
             );

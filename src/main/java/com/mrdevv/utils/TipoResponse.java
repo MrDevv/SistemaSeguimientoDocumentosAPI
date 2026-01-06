@@ -5,7 +5,7 @@ public enum TipoResponse {
     GET(200),
     GETALL(200),
     UPDATE(200),
-    DELETE(204),
+    DELETE(200),
     PATCH(200);
 
     private final Integer status;

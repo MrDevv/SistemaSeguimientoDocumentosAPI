@@ -20,6 +20,8 @@ public interface RecepcionRepository extends JpaRepository<Recepcion, Long> {
             , nativeQuery = true)
     List<Object[]> getEstadoRecepcionByDocumento(@Param("documento_id") Long documentoId);
 
+    @Query(value = "select * from trs_recepcion where envio_id = :envio_id", nativeQuery = true)
+    Recepcion getEstadoRecepcionByIdEnvio(@Param("envio_id") Long envioId);
 
     @Modifying
     @Query(value = "UPDATE TRS_RECEPCION SET DOCUMENTO_ESTADO_ID = :estado_id WHERE RECEPCION_ID = :recepcion_id", nativeQuery = true)
@@ -28,4 +30,9 @@ public interface RecepcionRepository extends JpaRepository<Recepcion, Long> {
     @Modifying
     @Query(value = "UPDATE TRS_RECEPCION SET DOCUMENTO_ESTADO_ID = :estado_id WHERE RECEPCION_ID = :recepcion_id", nativeQuery = true)
     int confirmarEnvioRecepcion(@Param("recepcion_id") Long recepcionId, @Param("estado_id") Long estadoEnviadoId);
+
+    @Modifying
+    @Query(value = "DELETE FROM trs_recepcion WHERE envio_id = :envio_id", nativeQuery = true)
+    void eliminarRecepcionByEnvioId(@Param("envio_id") Long envioId);
+
 }

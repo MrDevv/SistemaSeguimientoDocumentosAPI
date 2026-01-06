@@ -24,11 +24,9 @@ public class EnvioController {
       return ResponseHandler.get(TipoResponse.CREATE, "Envio registrado correctamente", envio);
     }
 
-//    TODO: Cancelar envío
     @DeleteMapping("/{idEnvio}")
     public ResponseEntity<Object> cancelarEnvio(@PathVariable Long idEnvio){
         envioService.cancelarEnvio(idEnvio);
-
-        return null;
+        return ResponseHandler.get(TipoResponse.DELETE, "Envio cancelado correctamente", null);
     }
 }

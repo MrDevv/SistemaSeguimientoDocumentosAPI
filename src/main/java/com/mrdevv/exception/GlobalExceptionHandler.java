@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
             Exception.class,
             ObjectNotFoundException.class,
             ObjectDuplicateExcepction.class,
-            PendingReceptionExcepcion.class
+            ConflictExcepcion.class
     })
     public ResponseEntity<ResponseError> handlerAllException(Exception exception, HttpServletRequest request, HttpServletResponse response){
         ZoneId zoneId = ZoneId.of("America/Lima");
@@ -29,14 +29,14 @@ public class GlobalExceptionHandler {
             return handlerObjectNotFoundException(objectNotFoundException, request, response, localDateTime);
         }else if (exception instanceof ObjectDuplicateExcepction objectDuplicateExcepction){
             return handlerDataIntegrityViolationException(objectDuplicateExcepction, request, response, localDateTime);
-        }else if (exception instanceof PendingReceptionExcepcion pendingReceptionExcepcion){
-            return handlerPendingReceptionExcepcion(pendingReceptionExcepcion, request, response, localDateTime);
+        }else if (exception instanceof ConflictExcepcion conflictExcepcion){
+            return handlerConflictExcepcion(conflictExcepcion, request, response, localDateTime);
         }
 
         return handlerException(exception, request, response, localDateTime);
     }
 
-    private ResponseEntity<ResponseError> handlerPendingReceptionExcepcion(PendingReceptionExcepcion pendingReceptionExcepcion, HttpServletRequest request, HttpServletResponse response, LocalDateTime localDateTime) {
+    private ResponseEntity<ResponseError> handlerConflictExcepcion(ConflictExcepcion conflictExcepcion, HttpServletRequest request, HttpServletResponse response, LocalDateTime localDateTime) {
         int  httpStatus = HttpStatus.CONFLICT.value();
 
         ResponseError responseError = new ResponseError(
@@ -44,8 +44,8 @@ public class GlobalExceptionHandler {
                 httpStatus,
                 request.getRequestURL().toString(),
                 request.getMethod(),
-                pendingReceptionExcepcion.getMessageFront(),
-                pendingReceptionExcepcion.getMessage(),
+                conflictExcepcion.getMessageFront(),
+                conflictExcepcion.getMessage(),
                 localDateTime,
                 null
         );

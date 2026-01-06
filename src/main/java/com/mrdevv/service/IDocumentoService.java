@@ -20,6 +20,8 @@ public interface IDocumentoService {
 
     void existsDocumentoByNumDocumento(String numDocumento);
 
+    void validarEstadoDocumentoEnSeguimiento(Long id);
+
     void iniciarSeguimiento(Long idDocumento);
 
     void finalizarSeguimiento(Long id);

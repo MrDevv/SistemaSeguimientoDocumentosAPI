@@ -1,5 +1,6 @@
 package com.mrdevv.service.impl;
 
+import com.mrdevv.exception.ConflictExcepcion;
 import com.mrdevv.exception.ObjectDuplicateExcepction;
 import com.mrdevv.exception.ObjectNotFoundException;
 import com.mrdevv.model.Documento;
@@ -71,6 +72,17 @@ public class DocumentoServiceImpl implements IDocumentoService {
             throw new ObjectDuplicateExcepction(
                     ErrorMessages.DOCUMENTO_DUPLICATE_BACKEND.getMessage(numDocumento),
                     ErrorMessages.DOCUMENTO_DUPLICATE_FRONT.getMessage(numDocumento)
+            );
+        }
+    }
+
+    @Override
+    public void validarEstadoDocumentoEnSeguimiento(Long id) {
+        Documento documento = findDocumentoById(id);
+        if(documento.getEstado().getId().longValue() !=  documentoEstadoService.getIdEstadoEnSeguimiento()){
+            throw new ConflictExcepcion(
+                ErrorMessages.DOCUMENTO_FOLLOW_UP_COMPLETED_BACKEND.getMessage(id),
+                ErrorMessages.DOCUMENTO_FOLLOW_UP_COMPLETED_FRONT.getMessage()
             );
         }
     }

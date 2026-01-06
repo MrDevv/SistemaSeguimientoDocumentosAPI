@@ -13,4 +13,10 @@ public interface IRecepcionService {
     void confirmarRecepcion(Long recepcionId);
 
     void confirmarEnvio(Long recepcionId);
+
+    void validarEstadoRecepcionadoByIdEnvio(Long recepcionId);
+
+    void validarEstadoPendienteDeRecepcionByIdEnvio(Long recepcionId);
+
+    void eliminarRecepcionByEnvioId(Long idEnvio);
 }

@@ -2,13 +2,13 @@ package com.mrdevv.exception;
 
 import lombok.Getter;
 
-public class PendingReceptionExcepcion extends RuntimeException{
+public class ConflictExcepcion extends RuntimeException{
 
     @Getter
     private final String messageFront;
     private final String messageBack;
 
-    public PendingReceptionExcepcion(String messageBack, String messageFront){
+    public ConflictExcepcion(String messageBack, String messageFront){
         this.messageBack = messageBack;
         this.messageFront = messageFront;
     }
