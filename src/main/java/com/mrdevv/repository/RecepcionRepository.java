@@ -12,14 +12,6 @@ import java.util.List;
 @Repository
 public interface RecepcionRepository extends JpaRepository<Recepcion, Long> {
 
-    @Query(value = ("SELECT r.recepcion_id, er.descripcion \"estado_recepcion\" FROM MAE_DOCUMENTO d "+
-            "INNER JOIN TRS_ENVIO e ON d.documento_id = e.documento_id "+
-            "INNER JOIN TRS_RECEPCION r ON e.envio_id = r.envio_id " +
-            "INNER JOIN MAE_DOCUMENTO_ESTADO er ON r.documento_estado_id = er.documento_estado_id " +
-            "WHERE d.documento_id = :documento_id")
-            , nativeQuery = true)
-    List<Object[]> getEstadoRecepcionByDocumento(@Param("documento_id") Long documentoId);
-
     @Query(value = "select * from trs_recepcion where envio_id = :envio_id", nativeQuery = true)
     Recepcion getEstadoRecepcionByIdEnvio(@Param("envio_id") Long envioId);
 

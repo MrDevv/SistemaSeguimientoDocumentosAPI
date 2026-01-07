@@ -1,14 +1,12 @@
 package com.mrdevv.service.impl;
 
 import com.mrdevv.exception.ObjectNotFoundException;
-import com.mrdevv.exception.ConflictExcepcion;
 import com.mrdevv.model.DocumentoEstado;
 import com.mrdevv.model.Envio;
 import com.mrdevv.payload.dto.documento.ResponseDocumentoDTO;
 import com.mrdevv.payload.dto.envio.CreateEnvioDTO;
 import com.mrdevv.payload.dto.envio.ResponseEnvioDTO;
 import com.mrdevv.payload.dto.recepcion.CreateRecepcionDTO;
-import com.mrdevv.payload.dto.recepcion.ResponseRecepcionEstadoSimpleDTO;
 import com.mrdevv.payload.mapper.EnvioMapper;
 import com.mrdevv.repository.EnvioRepository;
 import com.mrdevv.service.IDocumentoEstadoService;
@@ -35,19 +33,25 @@ public class EnvioServiceImpl implements IEnvioService {
     @Override
     public ResponseEnvioDTO saveEnvio(CreateEnvioDTO envioDTO) {
         ResponseDocumentoDTO documentoDTO = documentoService.getDocumentoById(envioDTO.documentoId());
+        documentoService.validarEstadoDocumentoEnSeguimientoONuevo(documentoDTO.id());
         if (Objects.equals(documentoDTO.idEstado(), estadoService.getIdEstadoNuevo())){
             documentoService.iniciarSeguimiento(envioDTO.documentoId());
         }
-        ResponseRecepcionEstadoSimpleDTO estadoRecepcion = recepcionService.getEstadoRecepcionByDocumento(envioDTO.documentoId());
-        this.validarEstadoRecepcionDeDocumento(estadoRecepcion, envioDTO.documentoId());
-        Envio envioDB = EnvioMapper.toEnvioEntity(envioDTO);
+
+        Envio envio = envioRepository.getUltimoEnvioByIdDocumento(envioDTO.documentoId());
+        if (envio != null){
+            recepcionService.validarEstadoRecepcionadoByIdEnvio(envio.getId());
+        }
+
+        envio = EnvioMapper.toEnvioEntity(envioDTO);
         Long idEstadoEnviado = estadoService.getIdEstadoEnviado();
-        envioDB.setDocumentoEstado(DocumentoEstado.builder().id(idEstadoEnviado).build());
-        Envio envio = envioRepository.save(envioDB);
+        envio.setDocumentoEstado(DocumentoEstado.builder().id(idEstadoEnviado).build());
+        envio = envioRepository.save(envio);
         recepcionService.saveRecepcion(new CreateRecepcionDTO(envio.getId(), envioDTO.usuarioAreaDestinoId()));
         return EnvioMapper.toEnvioDTO(envio);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Envio findEnvioById(Long idEnvio) {
         return envioRepository.findById(idEnvio).orElseThrow(() -> {
@@ -62,18 +66,9 @@ public class EnvioServiceImpl implements IEnvioService {
     @Override
     public void cancelarEnvio(Long idEnvio) {
         Envio envio = this.findEnvioById(idEnvio);
-        documentoService.validarEstadoDocumentoEnSeguimiento(envio.getDocumento().getId());
+        documentoService.validarEstadoDocumentoEnSeguimientoONuevo(envio.getDocumento().getId());
         recepcionService.validarEstadoPendienteDeRecepcionByIdEnvio(idEnvio);
         recepcionService.eliminarRecepcionByEnvioId(idEnvio);
         envioRepository.deleteById(idEnvio);
-    }
-
-    private void validarEstadoRecepcionDeDocumento(ResponseRecepcionEstadoSimpleDTO estadoRecepcionDocumento, Long idDocumento){
-        if (estadoRecepcionDocumento.estadoRecepcion() != null && estadoRecepcionDocumento.estadoRecepcion().equalsIgnoreCase("pendiente recepcion")){
-            throw new ConflictExcepcion(
-                    ErrorMessages.DOCUMENTO_PENDING_RECEPCION_BACKEND.getMessage(idDocumento),
-                    ErrorMessages.DOCUMENTO_PENDING_RECEPCION_FRONT.getMessage()
-            );
-        }
     }
 }

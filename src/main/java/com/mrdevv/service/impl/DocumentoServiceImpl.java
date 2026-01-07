@@ -77,9 +77,10 @@ public class DocumentoServiceImpl implements IDocumentoService {
     }
 
     @Override
-    public void validarEstadoDocumentoEnSeguimiento(Long id) {
+    public void validarEstadoDocumentoEnSeguimientoONuevo(Long id) {
         Documento documento = findDocumentoById(id);
-        if(documento.getEstado().getId().longValue() !=  documentoEstadoService.getIdEstadoEnSeguimiento()){
+        if(documento.getEstado().getId().intValue() !=  documentoEstadoService.getIdEstadoEnSeguimiento() &&
+            documento.getEstado().getId() != documentoEstadoService.getIdEstadoNuevo()){
             throw new ConflictExcepcion(
                 ErrorMessages.DOCUMENTO_FOLLOW_UP_COMPLETED_BACKEND.getMessage(id),
                 ErrorMessages.DOCUMENTO_FOLLOW_UP_COMPLETED_FRONT.getMessage()

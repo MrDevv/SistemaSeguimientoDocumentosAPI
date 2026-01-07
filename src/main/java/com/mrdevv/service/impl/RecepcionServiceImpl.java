@@ -33,12 +33,6 @@ public class RecepcionServiceImpl implements IRecepcionService {
         return RecepcionMapper.toRecepcionDTO(recepcion);
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public ResponseRecepcionEstadoSimpleDTO getEstadoRecepcionByDocumento(Long documentoId) {
-        List<Object[]> estadoRecepcion = recepcionRepository.getEstadoRecepcionByDocumento(documentoId);
-        return RecepcionMapper.toRecepcionEstadoSimpleDTO(estadoRecepcion);
-    }
 
     @Transactional
     @Override
