@@ -7,7 +7,6 @@ import com.mrdevv.model.Documento;
 import com.mrdevv.payload.dto.ResponseWithPageable;
 import com.mrdevv.payload.dto.documento.CreateDocumentoDTO;
 import com.mrdevv.payload.dto.documento.ResponseDocumentoDTO;
-import com.mrdevv.payload.dto.documento.ResponseDocumentoDetalladoDTO;
 import com.mrdevv.payload.dto.documento.UpdateDocumentoDTO;
 import com.mrdevv.payload.mapper.DocumentoMapper;
 import com.mrdevv.repository.DocumentoRepository;
@@ -15,14 +14,11 @@ import com.mrdevv.service.IDocumentoEstadoService;
 import com.mrdevv.service.IDocumentoService;
 import com.mrdevv.utils.ErrorMessages;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -92,14 +88,21 @@ public class DocumentoServiceImpl implements IDocumentoService {
     @Override
     public void iniciarSeguimiento(Long idDocumento) {
         Integer idEstadoActivo = documentoEstadoService.getIdEstadoEnSeguimiento();
-        documentoRepository.iniciarSeguimiento(idEstadoActivo, idDocumento);
+        documentoRepository.cambiarEstado(idEstadoActivo, idDocumento);
     }
 
     @Transactional
     @Override
     public void finalizarSeguimiento(Long idDocumento) {
         Integer idEstadoFinalizado = documentoEstadoService.getIdEstadoSeguimientoFinalizado();
-        documentoRepository.finalizarSeguimiento(idEstadoFinalizado, idDocumento);
+        documentoRepository.cambiarEstado(idEstadoFinalizado, idDocumento);
+    }
+
+    @Transactional
+    @Override
+    public void cambiarEstadoSeguimientoANuevo(Long idDocumento) {
+        Integer idEstadoNuevo = documentoEstadoService.getIdEstadoNuevo().intValue();
+        documentoRepository.cambiarEstado(idEstadoNuevo, idDocumento);
     }
 
     private Documento findDocumentoById(Long id) {

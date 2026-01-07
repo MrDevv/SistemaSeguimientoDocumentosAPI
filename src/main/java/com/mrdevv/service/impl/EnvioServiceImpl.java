@@ -70,5 +70,8 @@ public class EnvioServiceImpl implements IEnvioService {
         recepcionService.validarEstadoPendienteDeRecepcionByIdEnvio(idEnvio);
         recepcionService.eliminarRecepcionByEnvioId(idEnvio);
         envioRepository.deleteById(idEnvio);
+        if (envioRepository.getUltimoEnvioByIdDocumento(envio.getDocumento().getId()) == null){
+            documentoService.cambiarEstadoSeguimientoANuevo(envio.getDocumento().getId());
+        }
     }
 }

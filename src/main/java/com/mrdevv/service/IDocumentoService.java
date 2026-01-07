@@ -22,4 +22,6 @@ public interface IDocumentoService {
 
     void finalizarSeguimiento(Long id);
 
+    void cambiarEstadoSeguimientoANuevo(Long idDocumento);
+
 }
