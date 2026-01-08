@@ -28,7 +28,9 @@ public enum ErrorMessages {
     INDICACION_NOT_FOUND_FRONT("No se encontró la indicación."),
     INDICACION_NOT_FOUND_BACKEND("La indicación con el id '%s' no se encontró en la base de datos."),
     ENVIO_NOT_FOUND_FRONT("No se encontró el envío"),
-    ENVIO_NOT_FOUND_BACKEND("El envío con el id '%s' no se encontró en la base de datos.");
+    ENVIO_NOT_FOUND_BACKEND("El envío con el id '%s' no se encontró en la base de datos."),
+    RECEPCION_NOT_FOUND_FRONT("No se encontró la recepción"),
+    RECEPCION_NOT_FOUND_BACKEND("El recepción con el id '%s' no se encontró en la base de datos.");
 
 
     private final String mensaje;

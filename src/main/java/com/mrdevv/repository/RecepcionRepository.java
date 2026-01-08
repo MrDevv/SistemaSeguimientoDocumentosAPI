@@ -27,4 +27,8 @@ public interface RecepcionRepository extends JpaRepository<Recepcion, Long> {
     @Query(value = "DELETE FROM trs_recepcion WHERE envio_id = :envio_id", nativeQuery = true)
     void eliminarRecepcionByEnvioId(@Param("envio_id") Long envioId);
 
+    @Modifying
+    @Query(value = "UPDATE trs_recepcion set documento_estado_id = :estado_pendiente_id where recepcion_id = :recepcion_id", nativeQuery = true)
+    void cancelarRecepcion(@Param("recepcion_id") Long recepcionId, @Param("estado_pendiente_id") Integer estadoPendienteRecepcionId);
+
 }
