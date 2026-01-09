@@ -12,9 +12,11 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -33,9 +35,13 @@ public class DocumentoController {
     @GetMapping
     public ResponseEntity<Object> listarDocumentos(@RequestParam(required = false) String estado,
                                                    @RequestParam(required = false, name = "numeroDoc") String numDocumento,
+                                                   @RequestParam(required = false, name = "usuarioArea") Long usuarioAreaId,
+                                                   @RequestParam(required = false, name = "area") Long areaId,
+                                                   @RequestParam(required = false, name = "fechaInicio") String fechaInicio,
+                                                   @RequestParam(required = false, name = "fechaFin") String fechaFin,
                                                    @RequestParam(defaultValue = "0") Integer page,
                                                    @RequestParam(defaultValue = "10") Integer size){
-        ResponseWithPageable documentos = documentoService.getAllDocumentos(estado, numDocumento, page, size);
+        ResponseWithPageable documentos = documentoService.getAllDocumentos(estado, numDocumento, usuarioAreaId, areaId, fechaInicio, fechaFin, page, size);
         return ResponseHandler.get(TipoResponse.GETALL, "Listado de documentos", documentos);
     }
 

@@ -20,6 +20,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Service
 @RequiredArgsConstructor
 public class DocumentoServiceImpl implements IDocumentoService {
@@ -29,9 +33,10 @@ public class DocumentoServiceImpl implements IDocumentoService {
 
     @Transactional(readOnly = true)
     @Override
-    public ResponseWithPageable getAllDocumentos(String estado, String numDocumento, Integer page, Integer size) {
+    public ResponseWithPageable getAllDocumentos(String estado, String numDocumento, Long usuarioAreaId, Long areaId, String fechaInicio, String fechaFin, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Object[]> documentos = documentoRepository.getDocumentos(estado, numDocumento, pageable);
+        String fin = fechaFin != null ? LocalDate.parse(fechaFin).plusDays(1).toString() : null;
+        Page<Object[]> documentos = documentoRepository.getDocumentos(estado, numDocumento, usuarioAreaId, areaId, fechaInicio, fin, pageable);
         return DocumentoMapper.toDocumentoListDTO(documentos);
     }
 
