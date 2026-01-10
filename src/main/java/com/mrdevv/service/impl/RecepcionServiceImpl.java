@@ -38,7 +38,7 @@ public class RecepcionServiceImpl implements IRecepcionService {
 
 
     @Override
-    public Recepcion findRecepcionById(Integer recepcionId) {
+    public Recepcion findRecepcionById(Long recepcionId) {
         return recepcionRepository.findById(recepcionId.longValue()).orElseThrow(() -> {
             throw new ObjectNotFoundException(
                     ErrorMessages.RECEPCION_NOT_FOUND_BACKEND.getMessage(recepcionId),
@@ -51,10 +51,10 @@ public class RecepcionServiceImpl implements IRecepcionService {
     @Transactional
     @Override
     public void confirmarRecepcion(Long recepcionId) {
+        Recepcion recepcion = findRecepcionById(recepcionId);
+        documentoService.validarEstadoDocumentoEnSeguimientoONuevo(recepcion.getEnvio().getDocumento().getId());
         Long idEstadoRecepcionado = documentoEstadoService.getIdEstadoRecepcionado();
-        System.out.println(idEstadoRecepcionado);
-        Integer status = recepcionRepository.confirmarRecepcion(recepcionId, idEstadoRecepcionado);
-        System.out.println(status);
+        recepcionRepository.confirmarRecepcion(recepcionId, idEstadoRecepcionado);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class RecepcionServiceImpl implements IRecepcionService {
     @Transactional
     @Override
     public void cancelarRecepcion(Long recepcionId) {
-        Recepcion recepcion = findRecepcionById(recepcionId.intValue());
+        Recepcion recepcion = findRecepcionById(recepcionId);
         documentoService.validarEstadoDocumentoEnSeguimientoONuevo(recepcion.getEnvio().getDocumento().getId());
         Integer estadoPendienteRecepcionId = documentoEstadoService.getIdEstadoPendienteRecepcion().intValue();
         recepcionRepository.cancelarRecepcion(recepcionId, estadoPendienteRecepcionId);

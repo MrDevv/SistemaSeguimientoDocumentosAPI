@@ -8,7 +8,7 @@ public interface IRecepcionService {
 
     ResponseRecepcionDTO saveRecepcion(CreateRecepcionDTO recepcionDTO);
 
-    Recepcion findRecepcionById(Integer recepcionId);
+    Recepcion findRecepcionById(Long recepcionId);
 
     void confirmarRecepcion(Long recepcionId);
 

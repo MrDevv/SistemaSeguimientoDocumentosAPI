@@ -17,7 +17,7 @@ public interface RecepcionRepository extends JpaRepository<Recepcion, Long> {
 
     @Modifying
     @Query(value = "UPDATE TRS_RECEPCION SET DOCUMENTO_ESTADO_ID = :estado_id WHERE RECEPCION_ID = :recepcion_id", nativeQuery = true)
-    int confirmarRecepcion(@Param("recepcion_id") Long recepcionId, @Param("estado_id") Long estadoRecepcionadoId);
+    void confirmarRecepcion(@Param("recepcion_id") Long recepcionId, @Param("estado_id") Long estadoRecepcionadoId);
 
     @Modifying
     @Query(value = "UPDATE TRS_RECEPCION SET DOCUMENTO_ESTADO_ID = :estado_id WHERE RECEPCION_ID = :recepcion_id", nativeQuery = true)

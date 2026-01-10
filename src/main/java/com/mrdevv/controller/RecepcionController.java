@@ -23,4 +23,10 @@ public class RecepcionController {
         return ResponseHandler.get(TipoResponse.PATCH, "Se canceló la recepción correctamente", null);
     }
 
+    @PatchMapping("{id}/confirmar")
+    public ResponseEntity<Object> confirmarRecepcion(@PathVariable(name = "id") Long recepcionId){
+        recepcionService.confirmarRecepcion(recepcionId);
+        return ResponseHandler.get(TipoResponse.PATCH, "Se confirmó la recepción correctamente", null);
+    }
+
 }
