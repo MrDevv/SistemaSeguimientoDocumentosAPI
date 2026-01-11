@@ -1,6 +1,10 @@
 CREATE OR REPLACE FUNCTION sp_listar_documentos(
-    v_estado_documento VARCHAR(30),
-    v_numero_documento VARCHAR(200)
+    v_estado_documento varchar(30),
+    v_numero_documento varchar(200),
+    v_usuario_area_id bigint,
+    v_area_id bigint,
+    v_fecha_inicio varchar,
+    v_fecha_fin varchar
 )
 RETURNS TABLE (
 	documento_id INT,
@@ -40,6 +44,14 @@ BEGIN
     WHERE
     (v_estado_documento IS NULL OR ed.descripcion LIKE CONCAT('%', v_estado_documento, '%'))
     AND
-    (v_numero_documento IS NULL OR d.numero_documento LIKE CONCAT('%', v_numero_documento, '%'));
+    (v_numero_documento IS NULL OR d.numero_documento LIKE CONCAT('%', v_numero_documento, '%'))
+    AND
+    (v_usuario_area_id IS NULL OR tua.usuario_area_id = v_usuario_area_id)
+    AND
+    (v_area_id IS NULL OR a.area_id = v_area_id)
+    AND
+    (v_fecha_inicio IS NULL OR d.fecha_registro >= v_fecha_inicio::timestamp)
+    AND
+    (v_fecha_fin IS NULL OR d.fecha_registro < v_fecha_fin::timestamp);
 END;
 $$;
