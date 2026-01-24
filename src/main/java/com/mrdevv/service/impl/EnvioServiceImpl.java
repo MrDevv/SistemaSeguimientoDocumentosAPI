@@ -3,6 +3,7 @@ package com.mrdevv.service.impl;
 import com.mrdevv.exception.ObjectNotFoundException;
 import com.mrdevv.model.DocumentoEstado;
 import com.mrdevv.model.Envio;
+import com.mrdevv.payload.dto.ResponseWithPageable;
 import com.mrdevv.payload.dto.documento.ResponseDocumentoDTO;
 import com.mrdevv.payload.dto.envio.CreateEnvioDTO;
 import com.mrdevv.payload.dto.envio.ResponseEnvioDTO;
@@ -15,9 +16,15 @@ import com.mrdevv.service.IEnvioService;
 import com.mrdevv.service.IRecepcionService;
 import com.mrdevv.utils.ErrorMessages;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @RequiredArgsConstructor
@@ -28,6 +35,14 @@ public class EnvioServiceImpl implements IEnvioService {
     private final IRecepcionService recepcionService;
     private final IDocumentoService documentoService;
     private final IDocumentoEstadoService estadoService;
+
+    @Transactional()
+    @Override
+    public ResponseWithPageable listarEnvios(String numDocumento, Long usuarioAreaId, Long areaId, String fechaInicio, String fechaFin, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Object[]> envios = envioRepository.obtenerEnvios(numDocumento, usuarioAreaId, areaId, fechaInicio, fechaFin, pageable);
+        return EnvioMapper.toEnvioDTO(envios);
+    }
 
     @Transactional
     @Override
